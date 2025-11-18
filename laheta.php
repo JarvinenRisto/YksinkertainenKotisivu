@@ -23,9 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $otsikot .= "X-Mailer: PHP/" . phpversion();
 
     if (mail($kenelle, $otsikko, $sisalto, $otsikot)) {
-	echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 3 sekunnin kuluttua.';
-	header("Refresh: 3; URL=index.html");
-	exit;
+		echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 3 sekunnin kuluttua.';
+		header("Refresh: 3; URL=index.html");
+		exit;
     } else {
     	echo "Viestin lähetys epäonnistui.";
     }
