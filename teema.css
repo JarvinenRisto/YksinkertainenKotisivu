@@ -47,3 +47,28 @@ footer {
     margin-top: 40px;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px; /* siisti kapea lomake */
+}
+ 
+form label {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+ 
+form input, 
+form textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+ 
+form button {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 4px;
+}
