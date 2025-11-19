@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$tarkistettava = $nimi . ' ' . $email . ' ' . $viesti; 
 		$tulos = $moderointi->tarkista($tarkistettava);
 
-		if ($tulos['havaittu']) {
+		if ($tulos['havaittu'] || (strlen($viesti) < 10)) {
 			$ehkaRoskapostia = 1;
 		}
 		
