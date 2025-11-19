@@ -66,7 +66,7 @@
 		$kenelta = "admin@" . $domain;
 
 		$otsikot .= "From: $kenelta\r\n";
-		$otsikot .= "Reply-To: $email\r\n";
+		$otsikot .= "Reply-To: $kenelta\r\n";
 
 		if (mail($email, $otsikko, $vastaus, $otsikot)) {
 		    echo "Sähköposti lähetetty!";
