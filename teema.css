@@ -28,7 +28,10 @@ nav a {
 nav a:hover {
     color: #2e7d32;
 }
- 
+
+.active {
+  color: #a4cbac;
+}
 section {
     max-width: 900px;
     margin: 40px auto;
