@@ -49,11 +49,11 @@
 		$email = trim($_POST['email']);
 
 		if (preg_match('/[\r\n]/', $email)) {
-		    die("Virheellinen email!");
+		    die("Virheellinen sähköposti!");
 		}
 
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		    die("Virheellinen email.");
+		    die("Virheellinen sähköposti!");
 		}
 
 		$vastaus = str_replace(["\r"], '', $_POST['vastaus']);
