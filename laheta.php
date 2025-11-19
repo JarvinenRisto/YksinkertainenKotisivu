@@ -27,9 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		    die("Virheellinen sähköposti.");
 		}
 	
-		$statement = $sql->prepare("INSERT INTO Kuntokeskus_viestit (name, email, message) VALUES (?, ?, ?)");
+		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (name, email, message) VALUES (?, ?, ?)");
 
-		if ($statement->execute([$nimi, $email, $viesti])) {
+		if ($lauseke->execute([$nimi, $email, $viesti])) {
 			echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 5 sekunnin kuluttua.';
 			header("Refresh: 5; URL=index.html");
 			exit;
