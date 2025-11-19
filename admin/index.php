@@ -165,7 +165,7 @@
 		if ($sivu > 1) {
 		    echo "<a href='?tila=$tila&sivu=" . ($sivu - 1) . "'>Edellinen</a> ";
 		}
-		for ($indeksi = 1; $i <= $sivuMaara; $i++) {
+		for ($indeksi = 1; $indeksi <= $sivuMaara; $indeksi++) {
 		    if ($indeksi == $sivu) {
 		        echo "<strong>$indeksi</strong> ";
 		    } else {
