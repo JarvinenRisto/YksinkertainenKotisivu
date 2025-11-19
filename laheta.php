@@ -1,33 +1,43 @@
 <?php
+require_once('./admin/tietokanta.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $nimi   = trim($_POST['nimi'] ?? '');
-    $email  = trim($_POST['email'] ?? '');
-    $viesti = trim($_POST['viesti'] ?? '');
+	//bottitarkistusta
+	if (!empty($_POST['homepage'])) {
+    	http_response_code(400);
+    	die();
+	}
+	
+	$secret = '6LflpxAsAAAAABRrgOE59ph2zqj5SDeEBz5QaWzb';
+    $response = $_POST['g-recaptcha-response'];
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Virheellinen sähköposti.");
-    }
+    $verify = file_get_contents(
+        "https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$response}"
+    );
+    $captcha_success = json_decode($verify);
 
-    $kenelle = "p82253@edu.sasky.fi";
-    $otsikko = "Uusi viesti lomakkeelta";
+    if ($captcha_success->success) {
 
-    $sisalto = "Nimi: $nimi\n";
-    $sisalto .= "Sähköposti: $email\n\n";
-    $sisalto .= "Viesti:\n$viesti\n";
+		$nimi   = trim($_POST['nimi'] ?? '');
+		$email  = trim($_POST['email'] ?? '');
+		$viesti = trim($_POST['viesti'] ?? '');
 
-    $otsikot  = "From: $nimi <$email>\r\n";
-    $otsikot .= "Reply-To: $email\r\n";
-    $otsikot .= "Content-Type: text/plain; charset=utf-8\r\n";
-    $otsikot .= "X-Mailer: PHP/" . phpversion();
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		    die("Virheellinen sähköposti.");
+		}
+	
+		$statement = $sql->prepare("INSERT INTO Kuntokeskus_viestit (name, email, message) VALUES (?, ?, ?)");
 
-    if (mail($kenelle, $otsikko, $sisalto, $otsikot)) {
-		echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 3 sekunnin kuluttua.';
-		header("Refresh: 3; URL=index.html");
-		exit;
-    } else {
-    	echo "Viestin lähetys epäonnistui.";
-    }
+		if ($statement->execute([$nimi, $email, $viesti])) {
+			echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 5 sekunnin kuluttua.';
+			header("Refresh: 5; URL=index.html");
+			exit;
+		} else {
+			echo "Viestin lähetys epäonnistui.";
+		}
+	} else {
+		die();
+	}
 }
 ?>
