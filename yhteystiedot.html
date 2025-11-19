@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="teema.css">
     <title>Yhteystiedot – Kuntospurtti</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 
@@ -29,25 +30,32 @@
 
 
 
-    <form id="lomake" action="laheta.php" method="POST">  
-        <div>
-            <label for="nimi">Nimi</label>
-            <input type="text" id="nimi" name="nimi" required="">
-        </div>
+<form id="lomake" action="laheta.php" method="POST">
+	<div id="kotisivu">
+        <label for="homepage">Kotisivu</label>
+        <input type="text" name="homepage" id="homepage">
+    </div>
 
-        <div>
-            <label for="email">Sähköposti</label>
-            <input type="email" id="email" name="email" required="">
-        </div>
-        
-        <div>
-            <label for="viesti">Viesti</label>
-            <textarea id="viesti" name="viesti" rows="6" required></textarea>
-        </div>
-        
-        <div>             <button type="submit">Lähetä</button>
-        </div>
-    </form>
+    <div>
+        <label for="nimi">Nimi</label>
+        <input type="text" id="nimi" name="nimi" required>
+    </div>
+
+    <div>
+        <label for="email">Sähköposti</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+
+    <div>
+        <label for="viesti">Viesti</label>
+        <textarea id="viesti" name="viesti" rows="6" required></textarea>
+    </div>
+
+	<div class="g-recaptcha" data-sitekey="6LflpxAsAAAAALiNTUgjOrBgCJgQEMAd272Nampx"></div>
+
+    <button type="submit">Lähetä</button>
+</form>
+
 </section>
 
 
@@ -55,7 +63,5 @@
 <footer>
     Kuntospurtti © 2025
 </footer>
-
-
 
 </body></html>
