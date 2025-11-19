@@ -24,8 +24,7 @@ class OpenAI_Moderointi
         }
 
         $jsonData = json_encode([
-            "model" => "omni-moderation-latest",
-            "input" => $teksti
+            "input" => [$teksti]
         ]);
 
         $moderointiSivu = curl_init("https://api.openai.com/v1/moderations");
@@ -43,27 +42,38 @@ class OpenAI_Moderointi
             return [
                 "ok" => false,
                 "havaittu" => false,
-                "virhe" => "OpenAI API ei tullu vastausta."
+                "virhe" => "OpenAI API ei vastannut."
             ];
         }
 
-        $tila = curl_getinfo($moderointiSivu, CURLINFO_HTTP_CODE);
+        $http = curl_getinfo($moderointiSivu, CURLINFO_HTTP_CODE);
         curl_close($moderointiSivu);
 
-        if ($tila !== 200) {
+        if ($http !== 200) {
             return [
                 "ok" => false,
                 "havaittu" => false,
-                "virhe" => "OpenAI API -virhe (HTTP $tila)."
+                "virhe" => "HTTP $http",
+                "raw" => $vastaus
             ];
         }
 
         $data = json_decode($vastaus, true);
 
+        $kategoriat = $data["results"][0]["categories"] ?? [];
+
+        $havaittu = false;
+        foreach ($kategoriat as $kategoria => $val) {
+            if ($val === true || $val === 1) {
+                $havaittu = true;
+                break;
+            }
+        }
+
         return [
             "ok" => true,
-            "havaittu" => $data["results"][0]["flagged"] ?? false,
-            "kategoriat" => $data["results"][0]["categories"] ?? [],
+            "havaittu" => $havaittu,
+            "kategoriat" => $kategoriat,
             "pisteet" => $data["results"][0]["category_scores"] ?? []
         ];
     }
