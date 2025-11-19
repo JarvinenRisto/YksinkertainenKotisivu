@@ -1,5 +1,6 @@
 <?php
 require_once('./admin/tietokanta.php');
+require_once('openai_moderointi.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -26,10 +27,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		    die("Virheellinen sähköposti.");
 		}
-	
-		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (name, email, message) VALUES (?, ?, ?)");
 
-		if ($lauseke->execute([$nimi, $email, $viesti])) {
+		$ehkaRoskapostia = false;
+		
+		$moderointi = new OpenAI_Moderointi(getenv("OPENAI_API_KEY")); 
+		$tarkistettava = $nimi . ' ' . $email . ' ' . $viesti; 
+		$tulos = $moderointi->tarkista($tarkistettava);
+
+		if ($tulos['havaittu']) {
+			$ehkaRoskapostia = true;
+		}
+		
+		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (name, email, message, maybe_spam) VALUES (?, ?, ?, ?)");
+
+		if ($lauseke->execute([$nimi, $email, $viesti, $ehkaRoskapostia])) {
 			echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 5 sekunnin kuluttua.';
 			header("Refresh: 5; URL=index.html");
 			exit;
