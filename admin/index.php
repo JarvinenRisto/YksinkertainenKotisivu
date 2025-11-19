@@ -209,7 +209,7 @@
 		})
 		.then(vastaus => vastaus.text())
 		.then(tulos => {
-			alert("Email lähetetty");
+			alert("Sähköposti lähetetty");
 		    suljeVastausLomake();
 		});
 	}
