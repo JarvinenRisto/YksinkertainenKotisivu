@@ -24,6 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$email  = trim($_POST['email'] ?? '');
 		$viesti = trim($_POST['viesti'] ?? '');
 
+		if (strlen($viesti) < 10) {
+			die("Alle 10 merkin pituinen viesti.");
+		}
+		
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		    die("Virheellinen sähköposti.");
 		}
@@ -34,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$tarkistettava = $nimi . ' ' . $email . ' ' . $viesti; 
 		$tulos = $moderointi->tarkista($tarkistettava);
 
-		if ($tulos['havaittu'] || (strlen($viesti) < 10)) {
+		if ($tulos['havaittu']) {
 			$ehkaRoskapostia = 1;
 		}
 		
