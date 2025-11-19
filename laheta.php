@@ -28,14 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		    die("Virheellinen sähköposti.");
 		}
 
-		$ehkaRoskapostia = false;
+		$ehkaRoskapostia = 0;
 		
 		$moderointi = new OpenAI_Moderointi(getenv("OPENAI_API_KEY")); 
 		$tarkistettava = $nimi . ' ' . $email . ' ' . $viesti; 
 		$tulos = $moderointi->tarkista($tarkistettava);
 
 		if ($tulos['havaittu']) {
-			$ehkaRoskapostia = true;
+			$ehkaRoskapostia = 1;
 		}
 		
 		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (name, email, message, maybe_spam) VALUES (?, ?, ?, ?)");
