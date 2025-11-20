@@ -10,7 +10,6 @@
 		name VARCHAR(255) NOT NULL, 
     	email VARCHAR(255) NOT NULL,
     	message VARCHAR(4000) NOT NULL,
-		maybe_spam TINYINT(1) DEFAULT 0,
-		ip_address VARCHAR(45));"
+		maybe_spam TINYINT(1) DEFAULT 0);"
 	);
 ?>
