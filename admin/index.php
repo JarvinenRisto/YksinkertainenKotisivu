@@ -78,7 +78,7 @@
 
 	if (isset($_GET['poista'])) {
 		$tunniste = intval($_GET['poista']);
-		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id = ?");
+		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
 		$lauseke->execute([$tunniste]);
 	}
 
@@ -89,7 +89,7 @@
 
 		$paikkaMerkit = implode(',', array_fill(0, $tunnisteidenMaara, '?'));
 		
-		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id IN ($paikkaMerkit)");
+		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus IN ($paikkaMerkit)");
 		
 		$tyypit = str_repeat('i', $tunnisteidenMaara);
 		$lauseke->bind_param($tyypit, ...$tunnisteet);
@@ -108,9 +108,9 @@
 
 
 	if ($tila === 'spam') {
-		$laskeKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE maybe_spam = 1";
+		$laskeKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 1";
 	} else {
-		$laskeKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE maybe_spam = 0";
+		$laskeKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 0";
 	}
 
 	$riviMaara = $sql->query($laskeKysely)->fetch_assoc()['kokonaisMaara'];
@@ -128,16 +128,16 @@
 		$select = "
 		    SELECT *
 		    FROM Kuntokeskus_viestit
-		    WHERE maybe_spam = 1
-		    ORDER BY id DESC
+		    WHERE ehkaRoskapostia = 1
+		    ORDER BY id_kuntokeskus DESC
 		    LIMIT ?, ?
 		";
 	} else {
 		$select = "
 		    SELECT *
 		    FROM Kuntokeskus_viestit
-		    WHERE maybe_spam = 0
-		    ORDER BY id DESC
+		    WHERE ehkaRoskapostia = 0
+		    ORDER BY id_kuntokeskus DESC
 		    LIMIT ?, ?
 		";
 	}
@@ -151,9 +151,9 @@
 
 	echo "<div>";
 	if ($tila === 'inbox') {
-		echo "<strong>Saapuneet</strong> | <a href='?tila=spam'>Spam</a>";
+		echo "<strong>Saapuneet (" . $tulos->num_rows . ")</strong> | <a href='?tila=spam'>Spam</a>";
 	} else {
-		echo "<a href='?tila=inbox'>Saapuneet</a> | <strong>Spam</strong>";
+		echo "<a href='?tila=inbox'>Saapuneet</a> | <strong>Spam (" . $tulos->num_rows . ")</strong>";
 	}
 	echo "</div><br>";
 
@@ -180,19 +180,19 @@
 		echo '<form method="POST">';
 
 		foreach ($tulos as $rivi) {
-		    echo 'Nimi: ' . hsc($rivi['name']);
+		    echo 'Nimi: ' . hsc($rivi['nimi']);
 		    echo ' <a href="#" onclick="avaaVastausLomake('
-		        . hsc(json_encode($rivi['name'])) . ', '
-		        . hsc(json_encode($rivi['email'])) . ', '
-		        . hsc(json_encode($rivi['message']))
+		        . hsc(json_encode($rivi['nimi'])) . ', '
+		        . hsc(json_encode($rivi['sposti'])) . ', '
+		        . hsc(json_encode($rivi['viesti']))
 		        . ');">Vastaa</a>, ';
 		    
-		    echo '<a href="#" onclick="poista(' . intval($rivi['id']) . ');">Poista</a>, ';
+		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ');">Poista</a>, ';
 		    
-		    echo '<input type="checkbox" name="valitut[]" value="' . intval($rivi['id']) . '">';
+		    echo '<input type="checkbox" name="valitut[]" value="' . intval($rivi['id_kuntokeskus']) . '">';
 
-		    echo '<div>Email osoite: ' . hsc($rivi['email']) . '</div><br>';
-		    echo '<div>Viesti: ' . hsc($rivi['message']) . '</div><br>';
+		    echo '<div>Email osoite: ' . hsc($rivi['sposti']) . '</div><br>';
+		    echo '<div>Viesti: ' . hsc($rivi['viesti']) . '</div><br>';
 		}
 
 		echo '<button type="submit" name="poista_valitut" onclick="return confirm(\'Haluatko varmasti poistaa valitut viestit?\')">Poista valitut</button>';
