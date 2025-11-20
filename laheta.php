@@ -2,6 +2,31 @@
 require_once('./admin/tietokanta.php');
 require_once('openai_moderointi.php');
 
+function pyyntoRaja($sql, $ipOsoite) {
+	$AIKA_SEKUNTEINA = 60;
+    $RAJA = 10;
+
+    $lauseke = $sql->prepare("DELETE FROM Kuntokeskus_pyyntoraja WHERE aikaleima < ?");
+    $vanhaAika = time() - $AIKA_SEKUNTEINA;
+    $lauseke->execute([$vanhaAika]);
+    $lauseke->close();
+
+    $lauseke = $sql->prepare("SELECT COUNT(*) AS maara FROM Kuntokeskus_pyyntoraja WHERE ip_osoite = ?");
+    $lauseke->execute([$ipOsoite]);
+    $tulos = $lauseke->get_result();
+    $maara = $tulos->fetch_assoc()['maara'];
+    $lauseke->close();
+
+    if ($maara >= $RAJA) {
+        http_response_code(429);
+        die();
+    }
+
+    $lauseke = $sql->prepare("INSERT INTO Kuntokeskus_pyyntoraja (ip_osoite, aikaleima) VALUES (?, ?)");
+    $lauseke->execute([$ipOsoite, time()]);
+    $lauseke->close();
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	//bottitarkistusta
@@ -10,6 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     	die();
 	}
 	
+	pyyntoRaja($sql, $_SERVER['REMOTE_ADDR']);
+
 	$secret = '6LflpxAsAAAAABRrgOE59ph2zqj5SDeEBz5QaWzb';
     $response = $_POST['g-recaptcha-response'];
 
@@ -25,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$viesti = trim($_POST['viesti'] ?? '');
 
 		$pituus = strlen($viesti);
-		
+
 		if ($pituus < 10) {
 			die("Alle 10 merkin pituinen viesti.");
 		}
@@ -48,9 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 			$ehkaRoskapostia = 1;
 		}
 
-		$ipOsoite = $_SERVER['REMOTE_ADDR'];
-		
-		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (name, email, message, maybe_spam) VALUES (?, ?, ?, ?)");
+		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (nimi, sposti, viesti, ehkaRoskapostia) VALUES (?, ?, ?, ?)");
 
 		if ($lauseke->execute([$nimi, $email, $viesti, $ehkaRoskapostia])) {
 			echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 5 sekunnin kuluttua.';
