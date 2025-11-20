@@ -27,8 +27,26 @@ function pyyntoRaja($sql, $ipOsoite) {
     $lauseke->close();
 }
 
+function onkoLomakeLadattu() {
+	session_start();
+
+	if (!isset($_SESSION['lomake_on_ladattu'])) {
+    	die("Lomaketta ei ole ladattu!");
+	}
+
+	$aika = time() - $_SESSION['lomake_on_ladattu'];
+
+	if ($aika < 3) {
+    	die("Lähetetty liian nopeasti, taijat olla botti.");
+	}
+
+	unset($_SESSION['lomake_on_ladattu']);
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+	onkoLomakeLadattu();
+	
 	//bottitarkistusta
 	if (!empty($_POST['homepage'])) {
     	http_response_code(400);
