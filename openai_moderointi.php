@@ -24,7 +24,8 @@ class OpenAI_Moderointi
         }
 
         $jsonData = json_encode([
-            "input" => [$teksti]
+            "model" => "omni-moderation-latest",
+            "input" => $teksti
         ]);
 
         $moderointiSivu = curl_init("https://api.openai.com/v1/moderations");
@@ -63,8 +64,8 @@ class OpenAI_Moderointi
         $kategoriat = $data["results"][0]["categories"] ?? [];
 
         $havaittu = false;
-        foreach ($kategoriat as $kategoria => $val) {
-            if ($val === true || $val === 1) {
+        foreach ($kategoriat as $kategoria => $onkoHavaittu) {
+            if ($onkoHavaittu) {
                 $havaittu = true;
                 break;
             }
