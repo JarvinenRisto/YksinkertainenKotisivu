@@ -105,11 +105,11 @@
 		$sivu = 1;
 	}
 
-	$roskaPostiKysely = "SELECT COUNT(*) AS total FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 1";
-	$asiaPostiKysely  = "SELECT COUNT(*) AS total FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 0";
+	$roskaPostiKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 1";
+	$asiaPostiKysely  = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 0";
 	
 	$laskeKysely = $tila === 'spam' ? $roskaPostiKysely : $asiaPostiKysely;
-	$riviMaara = $sql->query($laskeKysely)->fetch(PDO::FETCH_ASSOC)['total'];
+	$riviMaara = $sql->query($laskeKysely)->fetch_assoc()['kokonaisMaara'];
 	
 	$sivuMaara = ceil($riviMaara / $tuloksetPerSivu);
 
@@ -119,7 +119,7 @@
 
 	$kohta = ($sivu - 1) * $tuloksetPerSivu;
 
-	$select = "
+	$kyselyLauseke = "
 		SELECT *
 		FROM Kuntokeskus_viestit
 		WHERE ehkaRoskapostia = ?
@@ -127,12 +127,16 @@
 		LIMIT ?, ?
 	";
 
-	$lauseke = $sql->prepare($select);
-	$lauseke->bindValue(1, $tila === 'spam' ? 1 : 0, PDO::PARAM_INT);
-	$lauseke->bindValue(2, $kohta, PDO::PARAM_INT);
-	$lauseke->bindValue(3, $tuloksetPerSivu, PDO::PARAM_INT);
+	$lauseke = $sql->prepare($kyselyLauseke);
+
+	$roska = ($tila === 'spam') ? 1 : 0;
+	$kohta = (int)$kohta;
+	$tuloksetPerSivu = (int)$tuloksetPerSivu;
+
+	$lauseke->bind_param("iii", $roska, $kohta, $tuloksetPerSivu);
 	$lauseke->execute();
-	$tulos = $lauseke->fetchAll(PDO::FETCH_ASSOC);
+	$tulos = $lauseke->get_result()->fetch_all(MYSQLI_ASSOC);
+
 
 	echo '<h2>Viestit</h2>';
 
@@ -148,7 +152,7 @@
 	}
 	echo "</div><br>";
 
-	if ($tulos->num_rows === 0) {
+	if (count($tulos) === 0) {
 		echo 'Ei viestejä lomakkeelta';
 	} else {
 
@@ -172,12 +176,12 @@
 
 		foreach ($tulos as $rivi) {
 		    echo 'Nimi: ' . hsc($rivi['nimi']);
-		    echo ' <a href="#" onclick="avaaVastausLomake(
-				    '<?= hsc(addslashes($rivi['nimi'])) ?>',
-				    '<?= hsc(addslashes($rivi['sposti'])) ?>',
-				    '<?= hsc(addslashes($rivi['viesti'])) ?>'
-				);">Vastaa</a>, ';
-		    
+		    echo ' <a href="#" onclick="avaaVastausLomake('
+				. '\'' . hsc(addslashes($rivi['nimi'])) . '\', '
+				. '\'' . hsc(addslashes($rivi['sposti'])) . '\', '
+				. '\'' . hsc(addslashes($rivi['viesti'])) . '\''
+				. ');">Vastaa</a>, ';
+
 		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ');">Poista</a>, ';
 		    
 		    echo '<input type="checkbox" name="valitut[]" value="' . intval($rivi['id_kuntokeskus']) . '">';
