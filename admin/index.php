@@ -46,32 +46,40 @@
 
 	if (isset($_POST['lahetaEmail'])) {
 
-		$email = trim($_POST['email']);
+    	$nimi = trim($_POST['nimi'] ?? '');
+    	if (!preg_match('/^[a-zA-ZåäöÅÄÖ\s\-]{1,60}$/u', $nimi)) {
+        	die("Virheellinen nimi.");
+    	}
 
-		if (preg_match('/[\r\n]/', $email)) { 
-			die("Virheellinen sähköposti!"); 
-		}
+	    $email = trim($_POST['email'] ?? '');
+	    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+	        die("Virheellinen sähköposti!");
+	    }
+	    if (preg_match('/[\r\n]/', $email)) {
+	        die("Virheellinen sähköposti!");
+	    }
 
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			 die("Virheellinen sähköposti!");
-		}
+    	$viesti = trim($_POST['viesti'] ?? '');
 
-		$vastaus = str_replace(["\r"], '', $_POST['vastaus']);
-		$vastaus .= "\r\n\r\nNimi: " . $_POST['nimi'] . "\r\n";
-		$vastaus .= "Viesti: " . $_POST['viesti'] . "\r\n";
+    	if (preg_match('/[\r\n]/', $nimi) || preg_match('/[\r\n]/', $viesti)) {
+    		die("Virheellinen syöte.");
+    	}
 
-		$otsikot  = "Content-Type: text/plain; charset=UTF-8\r\n";
-		$domain = $_SERVER['SERVER_NAME'];
-		$kenelta = "admin@" . $domain;
+    	$vastaus  = "Nimi: " . hsc($nimi) . "\r\n";
+    	$vastaus .= "Sähköposti: " . hsc($email) . "\r\n";
+    	$vastaus .= "Viesti:\r\n" . hsc($viesti) . "\r\n";
 
-		$otsikot .= "From: $kenelta\r\n";
-		$otsikot .= "Reply-To: $kenelta\r\n";
+    	$domain = $_SERVER['SERVER_NAME'];
+    	$kenelta = "admin@" . $domain;
+    	$otsikot  = "Content-Type: text/plain; charset=UTF-8\r\n";
+    	$otsikot .= "From: $kenelta\r\n";
+   	 	$otsikot .= "Reply-To: $kenelta\r\n";
 
-		if (mail($email, "Vastaus lomakkeelta", $vastaus, $otsikot)) {
-		    echo "Sähköposti lähetetty!";
-		} else {
-		    echo "Virhe sähköpostin lähetyksessä.";
-		}
+    	if (mail($email, "Vastaus lomakkeelta", $vastaus, $otsikot)) {
+	       	 echo "Sähköposti lähetetty!";
+    	} else {
+        	echo "Virhe sähköpostin lähetyksessä.";
+    	}
 	}
 
 
