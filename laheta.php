@@ -74,7 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     	die();
 	}
 	
-	$ipOsoite = $_SERVER['REMOTE_ADDR'];
+	$ipOsoite = $_SERVER['HTTP_CF_CONNECTING_IP'] 
+          ?? $_SERVER['HTTP_X_FORWARDED_FOR'] 
+          ?? $_SERVER['REMOTE_ADDR'];
 
 	pyyntoRaja($sql, $ipOsoite);
 
