@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	pyyntoRaja($sql, $ipOsoite);
 
-	$secret = '6LflpxAsAAAAABRrgOE59ph2zqj5SDeEBz5QaWzb';
+	$secret = getenv('RECAPTCHA_SECRET');
     $response = $_POST['g-recaptcha-response'];
 
     $verify = file_get_contents(
