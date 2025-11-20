@@ -6,10 +6,15 @@
 	$sql = new mysqli('localhost', $nimi, $salasana, $tietokanta);
 
 	$sql->query("CREATE TABLE IF NOT EXISTS Kuntokeskus_viestit (
-    	id INT AUTO_INCREMENT PRIMARY KEY,
-		name VARCHAR(255) NOT NULL, 
-    	email VARCHAR(255) NOT NULL,
-    	message VARCHAR(4000) NOT NULL,
-		maybe_spam TINYINT(1) DEFAULT 0);"
+    	id_kuntokeskus INT AUTO_INCREMENT PRIMARY KEY,
+		nimi VARCHAR(255) NOT NULL, 
+    	sposti VARCHAR(255) NOT NULL,
+    	viesti VARCHAR(4000) NOT NULL,
+		ehkaRoskapostia TINYINT(1) DEFAULT 0);"
+	);
+
+	$sql->query("CREATE TABLE IF NOT EXISTS Kuntokeskus_pyyntoraja (
+    	ip_osoite VARCHAR(45) NOT NULL,
+		aikaleima INT NOT NULL);"
 	);
 ?>
