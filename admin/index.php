@@ -106,10 +106,13 @@
 	}
 
 
+	$roskaPostiKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 1";
+	$asiaPostiKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 0";
+		
 	if ($tila === 'spam') {
-		$laskeKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 1";
+		$laskeKysely = $roskaPostiKysely;
 	} else {
-		$laskeKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 0";
+		$laskeKysely = $asiaPostiKysely;
 	}
 
 	$riviMaara = $sql->query($laskeKysely)->fetch_assoc()['kokonaisMaara'];
@@ -150,9 +153,13 @@
 
 	echo "<div>";
 	if ($tila === 'inbox') {
-		echo "<strong>Saapuneet (" . $tulos->num_rows . ")</strong> | <a href='?tila=spam'>Spam</a>";
+		$spamRiviMaara = $sql->query($roskaPostiKysely)->fetch_assoc()['kokonaisMaara'];
+		
+		echo "<strong>Saapuneet (" . $riviMaara . ")</strong> | <a href='?tila=spam'>Spam (" . $spamRiviMaara . ")</a>";
 	} else {
-		echo "<a href='?tila=inbox'>Saapuneet</a> | <strong>Spam (" . $tulos->num_rows . ")</strong>";
+		$asiaRiviMaara = $sql->query($asiaPostiKysely)->fetch_assoc()['kokonaisMaara'];
+		
+		echo "<a href='?tila=inbox'>Saapuneet (" . $asiaRiviMaara . ")</a> | <strong>Spam (" . $riviMaara . ")</strong>";
 	}
 	echo "</div><br>";
 
