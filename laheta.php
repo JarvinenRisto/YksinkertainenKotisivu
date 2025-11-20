@@ -87,10 +87,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$secret = getenv('RECAPTCHA_SECRET');
     $response = $_POST['g-recaptcha-response'];
 
-    $verify = file_get_contents(
-        "https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$response}"
-    );
-    $captcha_success = json_decode($verify);
+    $captchaSivu = curl_init("https://www.google.com/recaptcha/api/siteverify");
+
+	curl_setopt($captchaSivu, CURLOPT_POST, 1);
+	curl_setopt($captchaSivu, CURLOPT_POSTFIELDS, http_build_query([
+    	'secret'   => $secret,
+    	'response' => $response,
+    	'remoteip' => $ipOsoite,
+	]));
+	curl_setopt($captchaSivu, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($captchaSivu, CURLOPT_TIMEOUT, 5);
+	curl_setopt($captchaSivu, CURLOPT_SSL_VERIFYPEER, true);
+
+	$verifyResponse = curl_exec($captchaSivu);
+	curl_close($captchaSivu);
+
+	$captcha_success = json_decode($verifyResponse);
+
 
     if ($captcha_success->success) {
 
