@@ -179,11 +179,13 @@
 
 		foreach ($tulos as $rivi) {
 		    echo 'Nimi: ' . hsc($rivi['nimi']);
-		    echo '<a href="#" onclick="avaaVastausLomake('
-			    . json_encode(hsc($rivi['nimi'])) . ', '
-			    . json_encode(hsc($rivi['sposti'])) . ', '
-			    . json_encode(hsc($rivi['viesti']))
-			    . ');">Vastaa</a>, ';
+			echo ' <a href="#" onclick="avaaVastausLomake('
+				. hsc(json_encode($rivi['nimi']))
+				. ', '
+				. hsc(json_encode($rivi['sposti']))
+				. ', '
+				. hsc(json_encode($rivi['viesti']))
+				. ');">Vastaa</a>, ';
 
 		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ');">Poista</a>, ';
 		    
