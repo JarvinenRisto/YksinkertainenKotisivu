@@ -50,9 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 		$ipOsoite = $_SERVER['REMOTE_ADDR'];
 		
-		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (name, email, message, maybe_spam, ip_address) VALUES (?, ?, ?, ?, ?)");
+		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (name, email, message, maybe_spam) VALUES (?, ?, ?, ?)");
 
-		if ($lauseke->execute([$nimi, $email, $viesti, $ehkaRoskapostia, $ipOsoite])) {
+		if ($lauseke->execute([$nimi, $email, $viesti, $ehkaRoskapostia])) {
 			echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 5 sekunnin kuluttua.';
 			header("Refresh: 5; URL=index.html");
 			exit;
