@@ -37,6 +37,9 @@ class OpenAI_Moderointi
         ]);
         curl_setopt($moderointiSivu, CURLOPT_POSTFIELDS, $jsonData);
 
+        curl_setopt($moderointiSivu, CURLOPT_CONNECTTIMEOUT, 3); 
+        curl_setopt($moderointiSivu, CURLOPT_TIMEOUT, 6);
+        
         $vastaus = curl_exec($moderointiSivu);
 
         if (!$vastaus) {
