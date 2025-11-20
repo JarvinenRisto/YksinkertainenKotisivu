@@ -35,7 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     	die();
 	}
 	
-	pyyntoRaja($sql, $_SERVER['REMOTE_ADDR']);
+	$ipOsoite = $_SERVER['REMOTE_ADDR'];
+
+	pyyntoRaja($sql, $ipOsoite);
 
 	$secret = '6LflpxAsAAAAABRrgOE59ph2zqj5SDeEBz5QaWzb';
     $response = $_POST['g-recaptcha-response'];
@@ -71,11 +73,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$tarkistettava = $nimi . ' ' . $email . ' ' . $viesti; 
 		$tulos = $moderointi->tarkista($tarkistettava);
 
+		$suoritusMerkkijono = "INSERT INTO Kuntokeskus_viestit ";
+
 		if ($tulos['havaittu']) {
 			$ehkaRoskapostia = 1;
-		}
 
-		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (nimi, sposti, viesti, ehkaRoskapostia) VALUES (?, ?, ?, ?)");
+			$suoritusMerkkijono .= "(nimi, sposti, viesti, ehkaRoskapostia, ip_osoite) VALUES (?, ?, ?, ?, ?)";
+
+			$lauseke = $sql->prepare($suoritusMerkkijono);
+			$lauseke->bind_param("sssis", $nimi, $email, $viesti, $ehkaRoskapostia, $ipOsoite);
+		} else {
+			$suoritusMerkkijono .= "(nimi, sposti, viesti, ehkaRoskapostia) VALUES (?, ?, ?, ?)";
+
+			$lauseke = $sql->prepare($suoritusMerkkijono);
+			$lauseke->bind_param("sssi", $nimi, $email, $viesti, $ehkaRoskapostia);
+		}
 
 		if ($lauseke->execute([$nimi, $email, $viesti, $ehkaRoskapostia])) {
 			echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 5 sekunnin kuluttua.';
@@ -84,6 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		} else {
 			echo "Viestin lähetys epäonnistui.";
 		}
+
 	} else {
 		die();
 	}
