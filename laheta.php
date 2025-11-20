@@ -73,23 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$tarkistettava = $nimi . ' ' . $email . ' ' . $viesti; 
 		$tulos = $moderointi->tarkista($tarkistettava);
 
-		$suoritusMerkkijono = "INSERT INTO Kuntokeskus_viestit ";
-
 		if ($tulos['havaittu']) {
 			$ehkaRoskapostia = 1;
-
-			$suoritusMerkkijono .= "(nimi, sposti, viesti, ehkaRoskapostia, ip_osoite) VALUES (?, ?, ?, ?, ?)";
-
-			$lauseke = $sql->prepare($suoritusMerkkijono);
-			$lauseke->bind_param("sssis", $nimi, $email, $viesti, $ehkaRoskapostia, $ipOsoite);
-		} else {
-			$suoritusMerkkijono .= "(nimi, sposti, viesti, ehkaRoskapostia) VALUES (?, ?, ?, ?)";
-
-			$lauseke = $sql->prepare($suoritusMerkkijono);
-			$lauseke->bind_param("sssi", $nimi, $email, $viesti, $ehkaRoskapostia);
 		}
 
-		if ($lauseke->execute([$nimi, $email, $viesti, $ehkaRoskapostia])) {
+		$sql->prepare("INSERT INTO Kuntokeskus_viestit (nimi, sposti, viesti, ehkaRoskapostia, ip_osoite) VALUES (?, ?, ?, ?, ?)")
+
+		if ($lauseke->execute([$nimi, $email, $viesti, $ehkaRoskapostia, $ipOsoite])) {
 			echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 5 sekunnin kuluttua.';
 			header("Refresh: 5; URL=index.html");
 			exit;
