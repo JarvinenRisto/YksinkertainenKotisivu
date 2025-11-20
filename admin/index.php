@@ -57,9 +57,8 @@
 		}
 
 		$vastaus = str_replace(["\r"], '', $_POST['vastaus']);
-		$vastaus = substr($vastaus, 0, 5000);
-
-		$otsikko = "Vastaus lomakkeelta";
+		$vastaus .= "\r\n\r\nNimi: " . $_POST['nimi'] . "\r\n";
+		$vastaus .= "Viesti: " . $_POST['viesti'] . "\r\n";
 
 		$otsikot  = "Content-Type: text/plain; charset=UTF-8\r\n";
 		$domain = $_SERVER['SERVER_NAME'];
@@ -68,7 +67,7 @@
 		$otsikot .= "From: $kenelta\r\n";
 		$otsikot .= "Reply-To: $kenelta\r\n";
 
-		if (mail($email, $otsikko, $vastaus, $otsikot)) {
+		if (mail($email, "Vastaus lomakkeelta", $vastaus, $otsikot)) {
 		    echo "Sähköposti lähetetty!";
 		} else {
 		    echo "Virhe sähköpostin lähetyksessä.";
@@ -219,12 +218,16 @@
 	}
 
 	function lahetaVastaus() {
+		const nimi = document.getElementById('vastausLomake_nimi').innerText;
+		const viesti = document.getElementById('vastausLomake_viesti').innerText;
 		const email = document.getElementById('vastausLomake_email').innerText;
 		const vastaus = document.getElementById('vastausLomake_vastaa').value;
 
     	let lomakeData = new FormData();
     	lomakeData.append("email", email);
+		lomakeData.append("nimi", nimi);
     	lomakeData.append("vastaus", vastaus);
+		lomakeData.append("viesti", viesti);
     	lomakeData.append("lahetaEmail", "1");
 
 		fetch("index.php", {
