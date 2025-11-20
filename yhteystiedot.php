@@ -28,7 +28,10 @@
 
     <h3>Yhteydenottolomake</h3>
 
-
+<?php 
+	session_start();
+	$_SESSION['lomake_on_ladattu'] = time(); 
+?>
 
 <form id="lomake" action="laheta.php" method="POST">
 	<div id="kotisivu">
