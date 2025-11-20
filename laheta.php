@@ -64,9 +64,9 @@ function onkoLomakeLadattu() {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-	tarkistaCsrf();
-	
 	onkoLomakeLadattu();
+
+	tarkistaCsrf();
 	
 	//bottitarkistusta
 	if (!empty($_POST['homepage'])) {
