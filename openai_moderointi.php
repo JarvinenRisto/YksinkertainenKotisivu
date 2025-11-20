@@ -39,6 +39,8 @@ class OpenAI_Moderointi
 
         curl_setopt($moderointiSivu, CURLOPT_CONNECTTIMEOUT, 3); 
         curl_setopt($moderointiSivu, CURLOPT_TIMEOUT, 6);
+        curl_setopt($moderointiSivu, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($moderointiSivu, CURLOPT_SSL_VERIFYHOST, 2);
         
         $vastaus = curl_exec($moderointiSivu);
 
