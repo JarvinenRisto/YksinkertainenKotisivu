@@ -37,10 +37,6 @@
 </div>
 
 <?php
-	function hsc($merkkijono) {
-		return htmlspecialchars($merkkijono, ENT_QUOTES, 'UTF-8');
-	}
-
 	require_once('tietokanta.php');
 
 
