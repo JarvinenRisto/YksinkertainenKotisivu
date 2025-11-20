@@ -31,7 +31,10 @@
 <?php 
 	session_start();
 
-	$_SESSION['csrf'] = bin2hex(random_bytes(32));
+	if (empty($_SESSION['csrf'])) {
+    	$_SESSION['csrf'] = bin2hex(random_bytes(32));
+	}
+
 	$_SESSION['lomake_on_ladattu'] = time(); 
 ?>
 
