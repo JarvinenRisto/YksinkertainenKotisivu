@@ -39,118 +39,100 @@
 <?php
 	require_once('tietokanta.php');
 
-
 	if (isset($_POST['lahetaEmail'])) {
-
-    	$nimi = trim($_POST['nimi'] ?? '');
-    	if (!preg_match('/^[a-zA-ZåäöÅÄÖ\s\-]{1,60}$/u', $nimi)) {
-        	die("Virheellinen nimi.");
-    	}
-
+	
+	    $nimi = trim($_POST['nimi'] ?? '');
 	    $email = trim($_POST['email'] ?? '');
+	    $viesti = trim($_POST['viesti'] ?? '');
+	    $vastaus = trim($_POST['vastaus'] ?? '');
+	
+	    if (!preg_match('/^[a-zA-ZåäöÅÄÖ\s\-]{1,60}$/u', $nimi)) {
+	        die("Virheellinen nimi.");
+	    }
+	
 	    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 	        die("Virheellinen sähköposti!");
 	    }
+	
 	    if (preg_match('/[\r\n]/', $email)) {
 	        die("Virheellinen sähköposti!");
 	    }
-
-    	$viesti = trim($_POST['viesti'] ?? '');
-
-    	if (preg_match('/[\r\n]/', $nimi) || preg_match('/[\r\n]/', $viesti)) {
-    		die("Virheellinen syöte.");
-    	}
-
-    	$vastaus  = "Nimi: " . hsc($nimi) . "\r\n";
-    	$vastaus .= "Viesti:\r\n" . hsc($viesti) . "\r\n";
-
-    	$domain = $_SERVER['SERVER_NAME'];
-    	$kenelta = "admin@" . $domain;
-    	$otsikot  = "Content-Type: text/plain; charset=UTF-8\r\n";
-    	$otsikot .= "From: $kenelta\r\n";
-   	 	$otsikot .= "Reply-To: $kenelta\r\n";
-
-    	if (mail($email, "Vastaus lomakkeelta", $vastaus, $otsikot)) {
-	       	 echo "Sähköposti lähetetty!";
-    	} else {
-        	echo "Virhe sähköpostin lähetyksessä.";
-    	}
+	
+	    if (preg_match('/[\r\n]/', $nimi) || preg_match('/[\r\n]/', $viesti)) {
+	        die("Virheellinen syöte.");
+	    }
+	
+	    $teksti  = "Hei " . hsc($nimi) . ",\r\n\r\n";
+	    $teksti .= "Vastaus viestiisi:\r\n";
+	    $teksti .= hsc($vastaus) . "\r\n\r\n";
+	    $teksti .= "Alkuperäinen viestisi oli:\r\n";
+	    $teksti .= hsc($viesti) . "\r\n";
+	
+	    $domain = $_SERVER['SERVER_NAME'];
+	    $kenelta = "admin@" . $domain;
+	
+	    $otsikot  = "Content-Type: text/plain; charset=UTF-8\r\n";
+	    $otsikot .= "From: $kenelta\r\n";
+	    $otsikot .= "Reply-To: $kenelta\r\n";
+	
+	    if (mail($email, "Vastaus lomakkeelta", $teksti, $otsikot)) {
+	        echo "Sähköposti lähetetty!";
+	    } else {
+	        echo "Virhe sähköpostin lähetyksessä.";
+	    }
 	}
-
 
 	if (isset($_GET['poista'])) {
-		$tunniste = intval($_GET['poista']);
-		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
-		$lauseke->execute([$tunniste]);
+	    $tunniste = intval($_GET['poista']);
+	    $lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
+	    $lauseke->execute([$tunniste]);
 	}
-
 
 	if (isset($_POST['poista_valitut']) && !empty($_POST['valitut'])) {
-		$tunnisteet = $_POST['valitut']; 
-		$tunnisteidenMaara  = count($tunnisteet);
-
-		$paikkaMerkit = implode(',', array_fill(0, $tunnisteidenMaara, '?'));
-		
-		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus IN ($paikkaMerkit)");
-		
-		$tyypit = str_repeat('i', $tunnisteidenMaara);
-		$lauseke->bind_param($tyypit, ...$tunnisteet);
-		$lauseke->execute();
+	    $tunnisteet = $_POST['valitut'];
+	
+	    $paikkaMerkit = implode(',', array_fill(0, count($tunnisteet), '?'));
+	    $sqlLause = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus IN ($paikkaMerkit)");
+	    $sqlLause->execute($tunnisteet);
 	}
 
-
-	$tila = $_GET['tila'] ?? 'inbox'; 
-
+	$tila = $_GET['tila'] ?? 'inbox';
+	
 	$tuloksetPerSivu = 15;
 	$sivu = isset($_GET['sivu']) ? intval($_GET['sivu']) : 1;
 
-	if ($sivu < 1) { 
-		$sivu = 1; 
+	if ($sivu < 1) {
+		$sivu = 1;
 	}
 
-
-	$roskaPostiKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 1";
-	$asiaPostiKysely = "SELECT COUNT(*) AS kokonaisMaara FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 0";
-		
-	if ($tila === 'spam') {
-		$laskeKysely = $roskaPostiKysely;
-	} else {
-		$laskeKysely = $asiaPostiKysely;
-	}
-
-	$riviMaara = $sql->query($laskeKysely)->fetch_assoc()['kokonaisMaara'];
-
+	$roskaPostiKysely = "SELECT COUNT(*) AS total FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 1";
+	$asiaPostiKysely  = "SELECT COUNT(*) AS total FROM Kuntokeskus_viestit WHERE ehkaRoskapostia = 0";
+	
+	$laskeKysely = $tila === 'spam' ? $roskaPostiKysely : $asiaPostiKysely;
+	$riviMaara = $sql->query($laskeKysely)->fetch(PDO::FETCH_ASSOC)['total'];
+	
 	$sivuMaara = ceil($riviMaara / $tuloksetPerSivu);
 
-	if ($sivu > $sivuMaara && $sivuMaara > 0) { 
-		$sivu = $sivuMaara; 
+	if ($sivu > $sivuMaara && $sivuMaara > 0) {
+		$sivu = $sivuMaara;
 	}
 
 	$kohta = ($sivu - 1) * $tuloksetPerSivu;
 
-
-	if ($tila === 'spam') {
-		$select = "
-		    SELECT *
-		    FROM Kuntokeskus_viestit
-		    WHERE ehkaRoskapostia = 1
-		    ORDER BY id_kuntokeskus DESC
-		    LIMIT ?, ?
-		";
-	} else {
-		$select = "
-		    SELECT *
-		    FROM Kuntokeskus_viestit
-		    WHERE ehkaRoskapostia = 0
-		    ORDER BY id_kuntokeskus DESC
-		    LIMIT ?, ?
-		";
-	}
+	$select = "
+		SELECT *
+		FROM Kuntokeskus_viestit
+		WHERE ehkaRoskapostia = ?
+		ORDER BY id_kuntokeskus DESC
+		LIMIT ?, ?
+	";
 
 	$lauseke = $sql->prepare($select);
-	$lauseke->bind_param("ii", $kohta, $tuloksetPerSivu);
+	$lauseke->bindValue(1, $tila === 'spam' ? 1 : 0, PDO::PARAM_INT);
+	$lauseke->bindValue(2, $kohta, PDO::PARAM_INT);
+	$lauseke->bindValue(3, $tuloksetPerSivu, PDO::PARAM_INT);
 	$lauseke->execute();
-	$tulos = $lauseke->get_result();
+	$tulos = $lauseke->fetchAll(PDO::FETCH_ASSOC);
 
 	echo '<h2>Viestit</h2>';
 
@@ -190,11 +172,11 @@
 
 		foreach ($tulos as $rivi) {
 		    echo 'Nimi: ' . hsc($rivi['nimi']);
-		    echo ' <a href="#" onclick="avaaVastausLomake('
-		        . hsc(json_encode($rivi['nimi'])) . ', '
-		        . hsc(json_encode($rivi['sposti'])) . ', '
-		        . hsc(json_encode($rivi['viesti']))
-		        . ');">Vastaa</a>, ';
+		    echo ' <a href="#" onclick="avaaVastausLomake(
+				    '<?= hsc(addslashes($rivi['nimi'])) ?>',
+				    '<?= hsc(addslashes($rivi['sposti'])) ?>',
+				    '<?= hsc(addslashes($rivi['viesti'])) ?>'
+				);">Vastaa</a>, ';
 		    
 		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ');">Poista</a>, ';
 		    
