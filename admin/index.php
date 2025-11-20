@@ -66,7 +66,6 @@
     	}
 
     	$vastaus  = "Nimi: " . hsc($nimi) . "\r\n";
-    	$vastaus .= "Sähköposti: " . hsc($email) . "\r\n";
     	$vastaus .= "Viesti:\r\n" . hsc($viesti) . "\r\n";
 
     	$domain = $_SERVER['SERVER_NAME'];
