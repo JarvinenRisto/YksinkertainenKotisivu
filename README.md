@@ -6,7 +6,7 @@ Käyttäjätunnus: admin
 
 Salasana: 52,5koP3kj,3mc0X906
 
-## Toteutuksessa hyödennetty
+## Toteutuksessa hyödynnetty
 - OpenAI Moderation
 - ReCaptcha
 
