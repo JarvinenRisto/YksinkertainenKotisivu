@@ -3,7 +3,7 @@ require_once('./admin/tietokanta.php');
 require_once('openai_moderointi.php');
 
 function pyyntoRaja($sql, $ipOsoite) {
-	$AIKA_SEKUNTEINA = 600;
+	$AIKA_SEKUNTEINA = 60;
     $RAJA = 10;
 
     $lauseke = $sql->prepare("DELETE FROM Kuntokeskus_pyyntoraja WHERE aikaleima < ?");
