@@ -123,3 +123,50 @@ form button:hover {
     width: 0;
     overflow: hidden;
 }
+
+.staff-card {
+    
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0; 
+    border-radius: 8px;
+    margin: 30px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    
+    padding: 0; 
+}
+
+
+.staff-card h3 {
+    background-color: #2e7d32; 
+    color: #ffffff;
+    padding: 15px 20px;
+    margin: 0; 
+    
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 1.3em;
+}
+
+
+.staff-card .tagline {
+    font-weight: bold;
+    color: #256628; 
+    padding: 20px 20px 15px; 
+    margin: 0;
+	font-size: 1.1em;
+}
+
+.staff-card p {
+    padding: 0 20px; 
+    line-height: 1.6;
+    margin-top: 5;
+    margin-bottom: 15px;
+	
+}
+
+
+.staff-card p:last-of-type {
+    padding-bottom: 20px;
+    margin-bottom: 0;
+	
+}
