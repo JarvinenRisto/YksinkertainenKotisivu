@@ -1,4 +1,5 @@
 https://rosebasic.fi/KuntokeskusKuntospurtti/
+
 https://rosebasic.fi/KuntokeskusKuntospurtti/admin
 
 Käyttäjätunnus: admin
