@@ -1,4 +1,8 @@
 <?php
+	function hsc($merkkijono) {
+		return htmlspecialchars($merkkijono, ENT_QUOTES, 'UTF-8');
+	}
+
 	$nimi = $_SERVER['DB_USERNAME'];
 	$tietokanta = 'DB_P82253';
 	$salasana = $_SERVER['DB_PASSWORD'];
