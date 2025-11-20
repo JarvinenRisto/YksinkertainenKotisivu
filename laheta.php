@@ -19,7 +19,7 @@ function pyyntoRaja($sql, $ipOsoite) {
 
     if ($maara >= $RAJA) {
         http_response_code(429);
-        die();
+        die("Liikaa pyyntöjä samasta ip osoitteesta, yritä myöhemmin uudelleen!");
     }
 
     $lauseke = $sql->prepare("INSERT INTO Kuntokeskus_pyyntoraja (ip_osoite, aikaleima) VALUES (?, ?)");
