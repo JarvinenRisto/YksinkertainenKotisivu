@@ -10,7 +10,8 @@
 		nimi VARCHAR(255) NOT NULL, 
     	sposti VARCHAR(255) NOT NULL,
     	viesti VARCHAR(4000) NOT NULL,
-		ehkaRoskapostia TINYINT(1) DEFAULT 0);"
+		ehkaRoskapostia TINYINT(1) DEFAULT 0,
+		ip_osoite VARCHAR(45) NOT NULL);"
 	);
 
 	$sql->query("CREATE TABLE IF NOT EXISTS Kuntokeskus_pyyntoraja (
