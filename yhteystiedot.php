@@ -17,7 +17,7 @@
     <a href="index.html">Etusivu</a>
     <a href="tunnit.html">Ohjatut tunnit</a>
     <a href="henkilokunta.html">Henkilökunta</a>
-    <a class="active" href="yhteystiedot.html">Yhteystiedot</a>
+    <a class="active" href="yhteystiedot.php">Yhteystiedot</a>
 </nav>
 
 <section id="yhteys">
