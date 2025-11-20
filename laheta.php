@@ -24,12 +24,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$email  = trim($_POST['email'] ?? '');
 		$viesti = trim($_POST['viesti'] ?? '');
 
-		if (preg_match('/https?:\/\/|www\./i', $viesti)) {
-    		die("Viestissä ei saa olla linkkejä.");
-		}
+		$pituus = strlen($viesti);
 		
-		if (strlen($viesti) < 10) {
+		if ($pituus < 10) {
 			die("Alle 10 merkin pituinen viesti.");
+		}
+
+		if ($pituus > 4000) {
+			die("Yli 4000 merkin pituinen viesti.");
 		}
 		
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
