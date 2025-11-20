@@ -180,9 +180,9 @@
 		foreach ($tulos as $rivi) {
 		    echo 'Nimi: ' . hsc($rivi['nimi']);
 		    echo '<a href="#" onclick="avaaVastausLomake('
-			    . json_encode($rivi['nimi']) . ', '
-			    . json_encode($rivi['sposti']) . ', '
-			    . json_encode($rivi['viesti'])
+			    . json_encode(hsc($rivi['nimi'])) . ', '
+			    . json_encode(hsc($rivi['sposti'])) . ', '
+			    . json_encode(hsc($rivi['viesti']))
 			    . ');">Vastaa</a>, ';
 
 		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ');">Poista</a>, ';
