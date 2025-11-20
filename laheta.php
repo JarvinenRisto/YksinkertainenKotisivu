@@ -2,6 +2,25 @@
 require_once('./admin/tietokanta.php');
 require_once('openai_moderointi.php');
 
+function tulostaVirhe($viesti = "Virhe palvelimella.", $koodi = 400) {
+    http_response_code($koodi);
+    error_log("[viestilomake] $viesti");
+    exit($viesti);
+}
+
+function tarkistaCsrf() {
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    $csrf = $_POST['csrf'] ?? '';
+    $tallennettu = $_SESSION['csrf'] ?? '';
+
+    unset($_SESSION['csrf']);
+    if (empty($csrf) || empty($tallennettu) || !hash_equals($tallennettu, $csrf)) {
+        tulostaVirhe("Virheellinen lomaketunniste (CSRF).", 400);
+    }
+}
+
 function pyyntoRaja($sql, $ipOsoite) {
 	$AIKA_SEKUNTEINA = 60;
     $RAJA = 10;
