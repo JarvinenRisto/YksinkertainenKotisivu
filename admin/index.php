@@ -82,6 +82,7 @@
 	}
 
 	if (isset($_GET['poista'])) {
+		$tunniste = intval($_GET['poista']);
 		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
 		$lauseke->bind_param("i", $tunniste);
 		$lauseke->execute();
