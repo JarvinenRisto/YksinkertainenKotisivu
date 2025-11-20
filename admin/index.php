@@ -68,8 +68,7 @@
 	    $teksti .= "Alkuperäinen viestisi oli:\r\n";
 	    $teksti .= hsc($viesti) . "\r\n";
 	
-	    $domain = $_SERVER['SERVER_NAME'];
-	    $kenelta = "admin@" . $domain;
+	    $kenelta = "admin@rosebasic.fi";
 	
 	    $otsikot  = "Content-Type: text/plain; charset=UTF-8\r\n";
 	    $otsikot .= "From: $kenelta\r\n";
@@ -83,17 +82,20 @@
 	}
 
 	if (isset($_GET['poista'])) {
-	    $tunniste = intval($_GET['poista']);
-	    $lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
-	    $lauseke->execute([$tunniste]);
+		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
+		$lauseke->bind_param("i", $tunniste);
+		$lauseke->execute();
 	}
 
 	if (isset($_POST['poista_valitut']) && !empty($_POST['valitut'])) {
 	    $tunnisteet = $_POST['valitut'];
 	
-	    $paikkaMerkit = implode(',', array_fill(0, count($tunnisteet), '?'));
-	    $sqlLause = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus IN ($paikkaMerkit)");
-	    $sqlLause->execute($tunnisteet);
+		$paikat = implode(',', array_fill(0, count($tunnisteet), '?'));
+		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus IN ($paikat)");
+
+		$tyypit = str_repeat("i", count($tunnisteet)); 
+		$lauseke->bind_param($tyypit, ...$tunnisteet);
+		$lauseke->execute();
 	}
 
 	$tila = $_GET['tila'] ?? 'inbox';
@@ -176,11 +178,11 @@
 
 		foreach ($tulos as $rivi) {
 		    echo 'Nimi: ' . hsc($rivi['nimi']);
-		    echo ' <a href="#" onclick="avaaVastausLomake('
-				. '\'' . hsc(addslashes($rivi['nimi'])) . '\', '
-				. '\'' . hsc(addslashes($rivi['sposti'])) . '\', '
-				. '\'' . hsc(addslashes($rivi['viesti'])) . '\''
-				. ');">Vastaa</a>, ';
+		    echo '<a href="#" onclick="avaaVastausLomake('
+			    . json_encode($rivi['nimi']) . ', '
+			    . json_encode($rivi['sposti']) . ', '
+			    . json_encode($rivi['viesti'])
+			    . ');">Vastaa</a>, ';
 
 		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ');">Poista</a>, ';
 		    
