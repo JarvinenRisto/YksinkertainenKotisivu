@@ -30,10 +30,14 @@
 
 <?php 
 	session_start();
+
+	$_SESSION['csrf'] = bin2hex(random_bytes(32));
 	$_SESSION['lomake_on_ladattu'] = time(); 
 ?>
 
 <form id="lomake" action="laheta.php" method="POST">
+	<input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
+	
 	<div id="kotisivu">
         <label for="homepage">Kotisivu</label>
         <input type="text" name="homepage" id="homepage">
