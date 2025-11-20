@@ -31,7 +31,7 @@ function onkoLomakeLadattu() {
 	session_start();
 
 	if (!isset($_SESSION['lomake_on_ladattu'])) {
-    	die("Lomaketta ei ole ladattu!");
+    	die("Lomaketta ei ole ladattu! Keksit (cookies) puuttuu??");
 	}
 
 	$aika = time() - $_SESSION['lomake_on_ladattu'];
