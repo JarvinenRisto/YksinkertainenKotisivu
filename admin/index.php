@@ -68,27 +68,29 @@
 	}
 
 	if (isset($_POST['lahetaEmail'])) {
-		tarkista_CSRF();
-		
-	    $nimi = trim($_POST['nimi'] ?? '');
-	    $email = trim($_POST['email'] ?? '');
-	    $viesti = trim($_POST['viesti'] ?? '');
+	    tarkista_CSRF();
+	
+	    $nimi    = trim($_POST['nimi'] ?? '');
+	    $email   = trim($_POST['email'] ?? '');
+	    $viesti  = trim($_POST['viesti'] ?? '');
 	    $vastaus = trim($_POST['vastaus'] ?? '');
 	
-	    if (!preg_match('/^[a-zA-ZåäöÅÄÖ\s\-]{1,60}$/u', $nimi)) {
-	        die("Virheellinen nimi.");
+	    if (preg_match('/[\r\n]/', $nimi) || preg_match('/[\r\n]/', $email)) {
+	        die("Virheellinen syöte.");
 	    }
 	
+	    if (mb_strlen($nimi, 'UTF-8') < 1 || mb_strlen($nimi, 'UTF-8') > 255) {
+	        die("Nimen pituus virheellinen.");
+	    }
+
 	    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 	        die("Virheellinen sähköposti!");
 	    }
 	
-	    if (preg_match('/[\r\n]/', $email)) {
-	        die("Virheellinen sähköposti!");
-	    }
-	
-	    if (preg_match('/[\r\n]/', $nimi) || preg_match('/[\r\n]/', $viesti)) {
-	        die("Virheellinen syöte.");
+	    $viestiPituus = mb_strlen($viesti, 'UTF-8');
+		
+	    if ($viestiPituus > 10000) {
+	        die("Viestin pituus liian pitkä.");
 	    }
 	
 	    $teksti  = "Hei " . hsc($nimi) . ",\r\n\r\n";
@@ -98,8 +100,8 @@
 	    $teksti .= hsc($viesti) . "\r\n";
 	
 	    $kenelta = "admin@rosebasic.fi";
-
-		$otsikot = "MIME-Version: 1.0\r\n";
+	
+	    $otsikot  = "MIME-Version: 1.0\r\n";
 	    $otsikot .= "Content-Type: text/plain; charset=UTF-8\r\n";
 	    $otsikot .= "From: $kenelta\r\n";
 	    $otsikot .= "Reply-To: $kenelta\r\n";
