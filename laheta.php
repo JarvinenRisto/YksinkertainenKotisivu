@@ -21,29 +21,37 @@ function tarkistaCsrf() {
     }
 }
 
-function pyyntoRaja($sql, $ipOsoite) {
-	$AIKA_SEKUNTEINA = 60;
+function pyyntoRaja(mysqli $sql, string $ipOsoite) {
+    $AIKA_SEKUNTEINA = 60;
     $RAJA = 10;
+	
+    $vanhaAika = time() - $AIKA_SEKUNTEINA;
 
     $lauseke = $sql->prepare("DELETE FROM Kuntokeskus_pyyntoraja WHERE aikaleima < ?");
-    $vanhaAika = time() - $AIKA_SEKUNTEINA;
-    $lauseke->execute([$vanhaAika]);
+    $lauseke->bind_param("i", $vanhaAika);
+    $lauseke->execute();
     $lauseke->close();
 
-    $lauseke = $sql->prepare("SELECT COUNT(*) AS maara FROM Kuntokeskus_pyyntoraja WHERE ip_osoite = ?");
-	$lauseke->bind_param("s", $ipOsoite);
-	$lauseke->execute();
-	$result = $lauseke->get_result();
-	$maara = $result->fetch_assoc()['maara'];
-	$lauseke->close();
+    $lauseke = $sql->prepare("SELECT COUNT(*) FROM Kuntokeskus_pyyntoraja WHERE ip_osoite = ?");
+    $lauseke->bind_param("s", $ipOsoite);
+    $lauseke->execute();
+
+    $lauseke->bind_result($maara);
+    $lauseke->fetch();
+    $lauseke->close();
 
     if ($maara >= $RAJA) {
         http_response_code(429);
-        die("Liikaa pyyntöjä samasta ip osoitteesta, yritä myöhemmin uudelleen!");
+        die("Liikaa pyyntöjä samasta IP-osoitteesta. Yritä myöhemmin uudelleen!");
     }
 
-    $lauseke = $sql->prepare("INSERT INTO Kuntokeskus_pyyntoraja (ip_osoite, aikaleima) VALUES (?, ?)");
-    $lauseke->execute([$ipOsoite, time()]);
+    $aikaleima = time();
+    $lauseke = $sql->prepare("
+        INSERT INTO Kuntokeskus_pyyntoraja (ip_osoite, aikaleima)
+        VALUES (?, ?)
+    ");
+    $lauseke->bind_param("si", $ipOsoite, $aikaleima);
+    $lauseke->execute();
     $lauseke->close();
 }
 
