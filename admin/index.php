@@ -157,7 +157,7 @@
 	    $tila = 'inbox';
 	}
 	
-	$tuloksetPerSivu = 15;
+	$tuloksetPerSivu = 20;
 	$sivu = isset($_GET['sivu']) ? intval($_GET['sivu']) : 1;
 
 	if ($sivu < 1) {
@@ -254,6 +254,7 @@
 
 		    echo '<div>Email osoite: ' . hsc($rivi['sposti']) . '</div><br>';
 		    echo '<div>Viesti: ' . hsc($rivi['viesti']) . '</div><br>';
+			echo '<div>Ip osoite: ' . hsc($rivi['ip_osoite']) . '</div><br>';
 		}
 
 		echo '<button type="submit" name="poista_valitut" onclick="return confirm(\'Haluatko varmasti poistaa valitut viestit?\')">Poista valitut</button>';
