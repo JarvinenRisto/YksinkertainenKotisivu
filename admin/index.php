@@ -3,7 +3,8 @@
 	header("Referrer-Policy: no-referrer-when-downgrade"); 
 	header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload"); 
 	header("Permissions-Policy: geolocation=(), microphone=()"); 
-	header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
+	$nonce = base64_encode(random_bytes(16));
+	header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self'; img-src 'self';");
 
 	session_set_cookie_params([
 	  'lifetime' => 0,
@@ -252,7 +253,7 @@
     Kuntokeskus Kuntospurtti © 2025
 </footer>
 
-<script>
+<script nonce="<?= $nonce ?>">
 	const CSRF = "<?php echo $_SESSION['csrf']; ?>";
 	
 	function avaaVastausLomake(nimi, email, viesti) {
