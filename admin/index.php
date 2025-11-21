@@ -120,7 +120,7 @@
 	    $otsikot .= "From: $kenelta\r\n";
 	    $otsikot .= "Reply-To: $kenelta\r\n";
 	
-	    if (mail($email, "Vastaus lomakkeelta", $teksti, $otsikot)) {
+	    if (mail($email, "Vastaus Kuntospurtin lomakkeelta", $teksti, $otsikot)) {
 	        echo "Sähköposti lähetetty!";
 	    } else {
 	        echo "Virhe sähköpostin lähetyksessä.";
