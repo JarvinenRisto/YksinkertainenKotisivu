@@ -80,7 +80,7 @@
     <button type="submit">Lähetä</button>
 </form>
 
-<p>Tarkistamme automaattisesti lähetetyt viestit haitallisen sisällön, kuten uhkailun, varalta. Lähettämällä tämän lomakkeen hyväksyt automaattisesti kyseisen tarkistuksen.</p>
+<p>Tämän lomakkeen kautta lähetetyt viestit tarkistetaan automaattisesti haitallisen sisällön varalta (esimerkiksi uhkailu tai muu väärinkäyttö). Lomakkeen lähettämällä hyväksyt kyseisen tarkistuksen osana palvelun suojausta.</p>
 	
 </section>
 
