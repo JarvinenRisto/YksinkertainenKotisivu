@@ -214,11 +214,15 @@
 		foreach ($tulos as $rivi) {
 		    echo 'Nimi: ' . hsc($rivi['nimi']);
 ?>
-			<button 
-			  data-nimi="<?= hsc($rivi['nimi']) ?>"
-			  data-email="<?= hsc($rivi['sposti']) ?>"
-			  data-viesti="<?= hsc($rivi['viesti']) ?>"
-			  onclick="avaaVastausLomake(this.dataset.nimi, this.dataset.email, this.dataset.viesti)">Vastaa</button>
+		<a href="#" 
+			data-nimi="<?= hsc($rivi['nimi']) ?>" 
+			data-email="<?= hsc($rivi['sposti']) ?>"
+   			data-viesti="<?= hsc($rivi['viesti']) ?>"
+  		 	onclick="avaaVastausLomake(
+        		this.dataset.nimi,
+        		this.dataset.email,
+        		this.dataset.viesti
+   		); return false;"> Vastaa</a>
 
 <?php
 		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ');">Poista</a>, ';
@@ -298,6 +302,7 @@
 	    });
 	}
 
+	suljeVastausLomake();
 </script>
 
 </body></html>
