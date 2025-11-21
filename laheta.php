@@ -121,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$email  = trim($_POST['email'] ?? '');
 		$viesti = trim($_POST['viesti'] ?? '');
 
-		$pituus = strlen($viesti);
+		$pituus = mb_strlen($viesti, 'UTF-8');;
 
 		if ($pituus < 10) {
 			die("Alle 10 merkin pituinen viesti.");
