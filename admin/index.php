@@ -222,7 +222,7 @@
         		this.dataset.nimi,
         		this.dataset.email,
         		this.dataset.viesti
-   		); return false;"> Vastaa</a>
+   		); return false;"> Vastaa,</a>
 
 <?php
 		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ');">Poista</a>, ';
