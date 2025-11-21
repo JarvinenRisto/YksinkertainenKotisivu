@@ -47,8 +47,15 @@
 <?php
 	require_once('tietokanta.php');
 
+	function tarkista_CSRF() {
+		if (!isset($_POST['csrf']) || $_POST['csrf'] !== $_SESSION['csrf']) {
+    		die("Virheellinen CSRF!");
+		}
+	}
+
 	if (isset($_POST['lahetaEmail'])) {
-	
+		tarkista_CSRF();
+		
 	    $nimi = trim($_POST['nimi'] ?? '');
 	    $email = trim($_POST['email'] ?? '');
 	    $viesti = trim($_POST['viesti'] ?? '');
@@ -90,9 +97,7 @@
 	}
 
 	if (isset($_POST['poista'])) {
-	    if (!isset($_POST['csrf']) || $_POST['csrf'] !== $_SESSION['csrf']) {
-	        die("Virheellinen CSRF-token!");
-	    }
+	    tarkista_CSRF();
 	
 	    $tunniste = intval($_POST['poista']);
 	    $lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
@@ -101,9 +106,7 @@
 	}
 
 	if (isset($_POST['poista_valitut']) && !empty($_POST['valitut'])) {
-		if (!isset($_POST['csrf']) || $_POST['csrf'] !== $_SESSION['csrf']) {
-        	die("Virheellinen CSRF-token!");
-    	}
+		tarkista_CSRF();
 		
 	    $tunnisteet = $_POST['valitut'];
 	
