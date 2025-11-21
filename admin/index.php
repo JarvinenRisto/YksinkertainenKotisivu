@@ -213,14 +213,14 @@
 		
 		foreach ($tulos as $rivi) {
 		    echo 'Nimi: ' . hsc($rivi['nimi']);
-			echo ' <a href="#" onclick="avaaVastausLomake('
-				. hsc(json_encode($rivi['nimi']))
-				. ', '
-				. hsc(json_encode($rivi['sposti']))
-				. ', '
-				. hsc(json_encode($rivi['viesti']))
-				. ');">Vastaa</a>, ';
+?>
+			<button 
+			  data-nimi="<?= hsc($rivi['nimi']) ?>"
+			  data-email="<?= hsc($rivi['sposti']) ?>"
+			  data-viesti="<?= hsc($rivi['viesti']) ?>"
+			  onclick="avaaVastausLomake(this.dataset.nimi, this.dataset.email, this.dataset.viesti)">Vastaa</button>
 
+<?php
 		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ');">Poista</a>, ';
 		    
 		    echo '<input type="checkbox" name="valitut[]" value="' . intval($rivi['id_kuntokeskus']) . '">';
@@ -243,11 +243,11 @@
 	const CSRF = "<?php echo $_SESSION['csrf']; ?>";
 	
 	function avaaVastausLomake(nimi, email, viesti) {
-		document.getElementById('vastausLomake_nimi').innerText = nimi;
-		document.getElementById('vastausLomake_email').innerText = email;
-   	 	document.getElementById('vastausLomake_viesti').innerText = viesti;
-
-    	document.getElementById('vastausLomake').style.display = 'flex';
+	    document.getElementById('vastausLomake_nimi').textContent = nimi;
+	    document.getElementById('vastausLomake_email').textContent = email;
+	    document.getElementById('vastausLomake_viesti').textContent = viesti;
+	
+	    document.getElementById('vastausLomake').style.display = 'flex';
 	}
 
 	function suljeVastausLomake() {
