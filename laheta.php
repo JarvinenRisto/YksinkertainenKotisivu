@@ -80,12 +80,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     	http_response_code(400);
     	die();
 	}
-	
-	if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
-    	$ipOsoite = $_SERVER['HTTP_CF_CONNECTING_IP'];
-	} else {
-    	$ipOsoite = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
-	}
+
+	$ipOsoite = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 
 	if (!filter_var($ipOsoite, FILTER_VALIDATE_IP)) {
     	$ipOsoite = '0.0.0.0';
