@@ -31,10 +31,11 @@ function pyyntoRaja($sql, $ipOsoite) {
     $lauseke->close();
 
     $lauseke = $sql->prepare("SELECT COUNT(*) AS maara FROM Kuntokeskus_pyyntoraja WHERE ip_osoite = ?");
-    $lauseke->execute([$ipOsoite]);
-    $tulos = $lauseke->get_result();
-    $maara = $tulos->fetch_assoc()['maara'];
-    $lauseke->close();
+	$lauseke->bind_param("s", $ipOsoite);
+	$lauseke->execute();
+	$result = $lauseke->get_result();
+	$maara = $result->fetch_assoc()['maara'];
+	$lauseke->close();
 
     if ($maara >= $RAJA) {
         http_response_code(429);
