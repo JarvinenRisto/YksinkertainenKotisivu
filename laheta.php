@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once('./admin/tietokanta.php');
 require_once('openai_moderointi.php');
 
@@ -9,9 +11,6 @@ function tulostaVirhe($viesti = "Virhe palvelimella.", $koodi = 400) {
 }
 
 function tarkistaCsrf() {
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
     $csrf = $_POST['csrf'] ?? '';
     $tallennettu = $_SESSION['csrf'] ?? '';
 
@@ -56,7 +55,6 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
 }
 
 function onkoLomakeLadattu() {
-	session_start();
 
 	if (!isset($_SESSION['lomake_on_ladattu'])) {
     	die("Lomaketta ei ole ladattu! Keksit (cookies) puuttuu??");
