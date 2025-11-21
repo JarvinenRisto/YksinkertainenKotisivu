@@ -297,8 +297,6 @@
 	        location.reload();
 	    });
 	}
-
-	suljeVastausLomake();
 </script>
 
 </body></html>
