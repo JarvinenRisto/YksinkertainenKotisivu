@@ -3,8 +3,6 @@
 	header("Referrer-Policy: no-referrer-when-downgrade"); 
 	header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload"); 
 	header("Permissions-Policy: geolocation=(), microphone=()"); 
-	$nonce = base64_encode(random_bytes(16));
-	header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-$nonce'; style-src 'self'; img-src 'self';");
 
 	session_set_cookie_params([
 	  'lifetime' => 0,
@@ -53,10 +51,12 @@
     <textarea id="vastausLomake_vastaa" placeholder="Kirjoita vastaus..."></textarea><br>
 
 	<div class="vastausLomake_buttons">
-		<button type="button" class="sulje-nappi">Sulje</button>
-        <button type="button" class="laheta-nappi">Lähetä</button><br>
+		<button type="button" onclick="suljeVastausLomake()">Sulje</button>
+    	<button type="button" onclick="lahetaVastaus()">Lähetä</button><br>
 	</div>
 </div>
+
+<script src="admin.js"></script>
 
 <?php
 	require_once('tietokanta.php');
@@ -252,91 +252,5 @@
 <footer>
     Kuntokeskus Kuntospurtti © 2025
 </footer>
-
-<script nonce="<?= $nonce ?>">
-	const CSRF = "<?php echo $_SESSION['csrf']; ?>";
-
-	document.querySelectorAll('.vastaus-nappi').forEach(nappi => {
-	    nappi.addEventListener('click', function(tapahtuma) {
-	        tapahtuma.preventDefault();
-	        const nimi = this.dataset.nimi;
-	        const email = this.dataset.email;
-	        const viesti = this.dataset.viesti;
-	        avaaVastausLomake(nimi, email, viesti);
-	    });
-	});
-
-	document.querySelectorAll('.vastaus-nappi').forEach(nappi => {
-    nappi.addEventListener('click', e => {
-        e.preventDefault();
-        avaaVastausLomake(nappi.dataset.nimi, nappi.dataset.email, nappi.dataset.viesti);
-	    });
-	});
-	
-	document.querySelectorAll('.poista-nappi').forEach(nappi => {
-	    nappi.addEventListener('click', e => {
-	        e.preventDefault();
-	        poista(nappi.dataset.id);
-	    });
-	});
-
-	function avaaVastausLomake(nimi, email, viesti) {
-	    document.getElementById('vastausLomake_nimi').textContent = nimi;
-	    document.getElementById('vastausLomake_email').textContent = email;
-	    document.getElementById('vastausLomake_viesti').textContent = viesti;
-	
-	    document.getElementById('vastausLomake').style.display = 'flex';
-	}
-
-	function suljeVastausLomake() {
-    	document.getElementById('vastausLomake').style.display = 'none';
-	}
-
-	function lahetaVastaus() {
-		const nimi = document.getElementById('vastausLomake_nimi').innerText;
-		const viesti = document.getElementById('vastausLomake_viesti').innerText;
-		const email = document.getElementById('vastausLomake_email').innerText;
-		const vastaus = document.getElementById('vastausLomake_vastaa').value;
-
-    	let lomakeData = new FormData();
-    	lomakeData.append("email", email);
-		lomakeData.append("nimi", nimi);
-    	lomakeData.append("vastaus", vastaus);
-		lomakeData.append("viesti", viesti);
-    	lomakeData.append("lahetaEmail", "1");
-		lomakeData.append("csrf", CSRF);
-		
-		fetch("index.php", {
-		    method: "POST",
-		    body: lomakeData
-		})
-		.then(vastaus => vastaus.text())
-		.then(tulos => {
-			alert("Sähköposti lähetetty");
-		    suljeVastausLomake();
-		});
-	}
-
-	function poista(id) {
-	    if (!confirm("Haluatko varmasti poistaa viestin?")) {
-	        return;
-	    }
-	
-	    let lomakeData = new FormData();
-	    lomakeData.append("poista", id);
-	    lomakeData.append("csrf", CSRF);
-	
-	    fetch("index.php", {
-	        method: "POST",
-	        body: lomakeData
-	    })
-	    .then(vastaus => vastaus.text())
-	    .then(tulos => {
-	        location.reload();
-	    });
-	}
-
-	suljeVastausLomake();
-</script>
 
 </body></html>
