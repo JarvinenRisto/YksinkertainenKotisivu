@@ -120,7 +120,7 @@
 	    $otsikot .= "From: $kenelta\r\n";
 	    $otsikot .= "Reply-To: $kenelta\r\n";
 	
-	    if (mail($email, "Vastaus Kuntospurtin lomakkeelta", $teksti, $otsikot)) {
+	    if (mail($email, "Vastaus lomakkeelta", $teksti, $otsikot)) {
 	        echo "Sähköposti lähetetty!";
 	    } else {
 	        echo "Virhe sähköpostin lähetyksessä.";
@@ -157,7 +157,7 @@
 	    $tila = 'inbox';
 	}
 	
-	$tuloksetPerSivu = 15;
+	$tuloksetPerSivu = 10;
 	$sivu = isset($_GET['sivu']) ? intval($_GET['sivu']) : 1;
 
 	if ($sivu < 1) {
@@ -196,18 +196,18 @@
 	$lauseke->execute();
 	$tulos = $lauseke->get_result()->fetch_all(MYSQLI_ASSOC);
 
-
+	echo '<div id="yla"></div>';
 	echo '<h2>Viestit</h2>';
-
 	echo "<div>";
+
 	if ($tila === 'inbox') {
 		$spamRiviMaara = $sql->query($roskaPostiKysely)->fetch_assoc()['kokonaisMaara'];
 		
-		echo "<strong>Saapuneet (" . $riviMaara . ")</strong> | <a href='?tila=spam'>Spam (" . $spamRiviMaara . ")</a>";
+		echo "<strong>Saapuneet (" . $riviMaara . ")</strong> | <a href='?tila=spam'>Spam (" . $spamRiviMaara . ")</a>" . ' | <a href="#ala">Alas</a>';
 	} else {
 		$asiaRiviMaara = $sql->query($asiaPostiKysely)->fetch_assoc()['kokonaisMaara'];
 		
-		echo "<a href='?tila=inbox'>Saapuneet (" . $asiaRiviMaara . ")</a> | <strong>Spam (" . $riviMaara . ")</strong>";
+		echo "<a href='?tila=inbox'>Saapuneet (" . $asiaRiviMaara . ")</a> | <strong>Spam (" . $riviMaara . ")</strong>" . ' | <a href="#ala">Alas</a>';
 	}
 	echo "</div><br>";
 
@@ -253,15 +253,18 @@
 		    echo '<input type="checkbox" name="valitut[]" value="' . intval($rivi['id_kuntokeskus']) . '">';
 
 		    echo '<div>Email osoite: ' . hsc($rivi['sposti']) . '</div>';
-			//ip osoitetta ei näytetä tällä hetkellä.
-			//echo '<div>Ip osoite: ' . hsc($rivi['ip_osoite']) . '</div><br>';
-		    echo '<div>Viesti: ' . hsc($rivi['viesti']) . '</div><br>';
+			//Ip osoitetta ei näytetä tällä hetkellä.
+			//echo '<div>Ip osoite: ' . hsc($rivi['ip_osoite']) . '</div>';
+		    echo '<br><div>Viesti: <p>' . hsc($rivi['viesti']) . '</p></div>';
 		}
 
 		echo '<button type="submit" name="poista_valitut" onclick="return confirm(\'Haluatko varmasti poistaa valitut viestit?\')">Poista valitut</button>';
 		echo '</form>';
 	}
 ?>
+
+<a href="#yla">Ylös</a>'
+<div id="ala"></div>
 
 </section>
 <footer>
