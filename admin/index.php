@@ -252,7 +252,8 @@
     	lomakeData.append("vastaus", vastaus);
 		lomakeData.append("viesti", viesti);
     	lomakeData.append("lahetaEmail", "1");
-
+		lomakeData.append("csrf", CSRF);
+		
 		fetch("index.php", {
 		    method: "POST",
 		    body: lomakeData
