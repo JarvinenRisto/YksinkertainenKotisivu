@@ -1,6 +1,3 @@
-
-	const CSRF = "<?php echo $_SESSION['csrf']; ?>";
-	
 	function avaaVastausLomake(nimi, email, viesti) {
 	    document.getElementById('vastausLomake_nimi').textContent = nimi;
 	    document.getElementById('vastausLomake_email').textContent = email;
