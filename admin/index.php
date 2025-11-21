@@ -272,10 +272,10 @@
 	
 	    fetch("index.php", {
 	        method: "POST",
-	        body: data
+	        body: lomakeData
 	    })
-	    .then(r => r.text())
-	    .then(t => {
+	    .then(resurssi => resurssi.text())
+	    .then(tulos => {
 	        location.reload();
 	    });
 	}
