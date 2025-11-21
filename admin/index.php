@@ -92,8 +92,9 @@
 	    $teksti .= hsc($viesti) . "\r\n";
 	
 	    $kenelta = "admin@rosebasic.fi";
-	
-	    $otsikot  = "Content-Type: text/plain; charset=UTF-8\r\n";
+
+		$otsikot = "MIME-Version: 1.0\r\n";
+	    $otsikot .= "Content-Type: text/plain; charset=UTF-8\r\n";
 	    $otsikot .= "From: $kenelta\r\n";
 	    $otsikot .= "Reply-To: $kenelta\r\n";
 	
