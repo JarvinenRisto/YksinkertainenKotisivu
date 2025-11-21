@@ -139,12 +139,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$tarkistettava = $nimi . ' ' . $email . ' ' . $viesti; 
 		$tulos = $moderointi->tarkista($tarkistettava);
 
-		if ($tulos['havaittu']) {
+		$hash = md5($viesti);
+
+		$tarkistus = $sql->prepare("SELECT COUNT(*) FROM Kuntokeskus_viestit WHERE md5_hash = ?");
+		$tarkistus->bind_param("s", $hash);
+		$tarkistus->execute();
+		$tarkistus->bind_result($count);
+		$tarkistus->fetch();
+		$tarkistus->close();
+		
+		if ($tulos['havaittu'] || $count > 0) {
 			$ehkaRoskapostia = 1;
 		}
-		
-		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (nimi, sposti, viesti, ehkaRoskapostia, ip_osoite) VALUES (?, ?, ?, ?, ?)");
-		$lauseke->bind_param("sssis", $nimi, $email, $viesti, $ehkaRoskapostia, $ipOsoite);
+
+		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (nimi, sposti, viesti, ehkaRoskapostia, ip_osoite, md5_hash) VALUES (?, ?, ?, ?, ?, ?)");
+		$lauseke->bind_param("sssis", $nimi, $email, $viesti, $ehkaRoskapostia, $ipOsoite, $hash);
 		
 		if ($lauseke->execute()) {
 		    $lauseke->close();
