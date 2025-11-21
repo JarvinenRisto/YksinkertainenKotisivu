@@ -8,6 +8,7 @@
 	$salasana = $_SERVER['DB_PASSWORD'];
 
 	$sql = new mysqli('localhost', $nimi, $salasana, $tietokanta);
+	$sql->set_charset("utf8mb4");
 
 	$sql->query("CREATE TABLE IF NOT EXISTS Kuntokeskus_viestit (
     	id_kuntokeskus INT AUTO_INCREMENT PRIMARY KEY,
