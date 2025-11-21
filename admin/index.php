@@ -56,6 +56,7 @@
 
 	function tarkista_CSRF() {
 		if (!isset($_POST['csrf']) || $_POST['csrf'] !== $_SESSION['csrf']) {
+			http_response_code(403);
     		die("Virheellinen CSRF!");
 		}
 	}
