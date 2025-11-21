@@ -298,7 +298,6 @@
 	    });
 	}
 
-	suljeVastausLomake();
 </script>
 
 </body></html>
