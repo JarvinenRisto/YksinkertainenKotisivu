@@ -53,8 +53,8 @@
     <textarea id="vastausLomake_vastaa" placeholder="Kirjoita vastaus..."></textarea><br>
 
 	<div class="vastausLomake_buttons">
-		<button type="button" onclick="suljeVastausLomake()">Sulje</button>
-    	<button type="button" onclick="lahetaVastaus()">Lähetä</button><br>
+		<button type="button" class="sulje-nappi">Sulje</button>
+        <button type="button" class="laheta-nappi">Lähetä</button><br>
 	</div>
 </div>
 
@@ -263,6 +263,20 @@
 	        const email = this.dataset.email;
 	        const viesti = this.dataset.viesti;
 	        avaaVastausLomake(nimi, email, viesti);
+	    });
+	});
+
+	document.querySelectorAll('.vastaus-nappi').forEach(nappi => {
+    nappi.addEventListener('click', e => {
+        e.preventDefault();
+        avaaVastausLomake(nappi.dataset.nimi, nappi.dataset.email, nappi.dataset.viesti);
+	    });
+	});
+	
+	document.querySelectorAll('.poista-nappi').forEach(nappi => {
+	    nappi.addEventListener('click', e => {
+	        e.preventDefault();
+	        poista(nappi.dataset.id);
 	    });
 	});
 
