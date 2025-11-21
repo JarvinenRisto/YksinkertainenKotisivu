@@ -9,7 +9,7 @@
 	session_start();
 
 	if (!isset($_SESSION['csrf'])) {
-	    $_SESSION['csrf'] = bin2hex(random_bytes(16));
+	    $_SESSION['csrf'] = bin2hex(random_bytes(32));
 	}	
 ?>
 
@@ -291,7 +291,7 @@
 	        method: "POST",
 	        body: lomakeData
 	    })
-	    .then(resurssi => resurssi.text())
+	    .then(vastaus => vastaus.text())
 	    .then(tulos => {
 	        location.reload();
 	    });
