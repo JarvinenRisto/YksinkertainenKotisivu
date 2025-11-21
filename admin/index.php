@@ -108,7 +108,7 @@
 	if (isset($_POST['poista_valitut']) && !empty($_POST['valitut'])) {
 		tarkista_CSRF();
 		
-	    $tunnisteet = $_POST['valitut'];
+	    $tunnisteet = array_map('intval', $_POST['valitut']);
 	
 		$paikat = implode(',', array_fill(0, count($tunnisteet), '?'));
 		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus IN ($paikat)");
