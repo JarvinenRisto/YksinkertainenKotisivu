@@ -4,6 +4,15 @@
 	header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload"); 
 	header("Permissions-Policy: geolocation=(), microphone=()"); 
 
+	$nonce = base64_encode(random_bytes(16));
+
+	header("Content-Security-Policy: default-src 'self'; 
+        script-src 'self' 'nonce-$nonce'; 
+        style-src 'self'; 
+        img-src 'self'; 
+        connect-src 'self'; 
+        frame-ancestors 'none';");
+
 	session_set_cookie_params([
 	  'lifetime' => 0,
 	  'path' => '/',
@@ -17,6 +26,10 @@
 	    $_SESSION['csrf'] = bin2hex(random_bytes(32));
 	}	
 ?>
+
+<script nonce="<?= $nonce ?>">
+  const CSRF = "<?= $_SESSION['csrf'] ?>";
+</script>
 
 <!DOCTYPE html>
 <html lang="fi"><head>
