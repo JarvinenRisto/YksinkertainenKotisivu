@@ -1,4 +1,10 @@
 <?php
+	header("X-Content-Type-Options: nosniff"); 
+	header("Referrer-Policy: no-referrer-when-downgrade"); 
+	header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload"); 
+	header("Permissions-Policy: geolocation=(), microphone=()"); 
+	header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
+
 	session_set_cookie_params([
 	  'lifetime' => 0,
 	  'path' => '/',
