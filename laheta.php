@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     	die();
 	}
 
-	$ipOsoite = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+	$ipOsoite = $_SERVER['REMOTE_ADDR'];
 
 	if (!filter_var($ipOsoite, FILTER_VALIDATE_IP)) {
     	$ipOsoite = '0.0.0.0';
@@ -117,8 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 		$pituus = mb_strlen($viesti, 'UTF-8');;
 
-		if ($pituus < 10) {
-			die("Alle 10 merkin pituinen viesti.");
+		if ($pituus < 8) {
+			die("Alle 8 merkin pituinen viesti.");
 		}
 
 		if ($pituus > 4000) {
