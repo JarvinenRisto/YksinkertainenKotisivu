@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (empty($_SESSION['csrf'])) {
+    $_SESSION['csrf'] = bin2hex(random_bytes(32));
+}
+
+$_SESSION['lomake_on_ladattu'] = time();
+?>
+
 <!DOCTYPE html>
 <html lang="fi"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -27,16 +37,6 @@
     <p>Osoite: Treenikatu 5, 00100 Helsinki</p>
 
     <h3>Yhteydenottolomake</h3>
-
-<?php 
-	session_start();
-
-	if (empty($_SESSION['csrf'])) {
-    	$_SESSION['csrf'] = bin2hex(random_bytes(32));
-	}
-
-	$_SESSION['lomake_on_ladattu'] = time(); 
-?>
 
 <form id="lomake" action="laheta.php" method="POST">
 	<input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
