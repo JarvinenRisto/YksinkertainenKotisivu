@@ -10,5 +10,4 @@ Salasana: 52,5koP3kj,3mc0X906
 - OpenAI Moderation
 - ReCaptcha
 
-5 sekunnin viive käyttäjälle onnistuneen lomakkeen lähetyksen jälkeen.
-Jos käyttäjä täytti lomakkeen nopeammin kuin 3 sekunnissa, lähetys estyy.
+5 sekunnin viive käyttäjälle onnistuneen lomakkeen lähetyksen jälkeen. Jos käyttäjä täytti lomakkeen nopeammin kuin 3 sekunnissa, lähetys estyy. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
