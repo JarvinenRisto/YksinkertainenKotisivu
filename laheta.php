@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	pyyntoRaja($sql, $ipOsoite);
 
-	$secret = '6LflpxAsAAAAABRrgOE59ph2zqj5SDeEBz5QaWzb';
+	$secret = getenv('RECAPTCHA_SECRET_KEY');
     $response = $_POST['g-recaptcha-response'];
 
 	$captchaSivu = curl_init("https://www.google.com/recaptcha/api/siteverify");
@@ -135,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 		$ehkaRoskapostia = 0;
 		
-		$moderointi = new OpenAI_Moderointi('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'); 
+		$moderointi = new OpenAI_Moderointi(getenv('OPENAI_API_KEY')); 
 		$tarkistettava = $nimi . ' ' . $email . ' ' . $viesti; 
 		$tulos = $moderointi->tarkista($tarkistettava);
 
