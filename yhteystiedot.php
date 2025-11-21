@@ -39,7 +39,7 @@ $_SESSION['lomake_on_ladattu'] = time();
     <h3>Yhteydenottolomake</h3>
 
 <form id="lomake" action="laheta.php" method="POST">
-	<input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>">
+	<input type="hidden" name="csrf" value="<?=htmlspecialchars($_SESSION['csrf'], ENT_QUOTES, 'UTF-8')?>">
 	
 	<div id="kotisivu">
         <label for="homepage">Kotisivu</label>
