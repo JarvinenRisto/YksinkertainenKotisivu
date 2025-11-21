@@ -223,7 +223,7 @@
 </footer>
 
 <script>
-	const CSRF = "<?php echo json_encode($_SESSION['csrf']); ?>";
+	const CSRF = "<?php echo $_SESSION['csrf']; ?>";
 	
 	function avaaVastausLomake(nimi, email, viesti) {
 		document.getElementById('vastausLomake_nimi').innerText = nimi;
