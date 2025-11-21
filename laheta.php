@@ -74,9 +74,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     	die();
 	}
 	
-	$ipOsoite = $_SERVER['HTTP_CF_CONNECTING_IP'] 
-          ?? ($_SERVER['HTTP_X_FORWARDED_FOR'] ? explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0] : null)
-          ?? $_SERVER['REMOTE_ADDR'];
+	if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+    	$ipOsoite = $_SERVER['HTTP_CF_CONNECTING_IP'];
+	} else {
+    	$ipOsoite = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+	}
 
 	if (!filter_var($ipOsoite, FILTER_VALIDATE_IP)) {
     	$ipOsoite = '0.0.0.0';
