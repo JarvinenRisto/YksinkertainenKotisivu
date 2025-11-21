@@ -4,6 +4,8 @@
 	    document.getElementById('vastausLomake_viesti').textContent = viesti;
 	
 	    document.getElementById('vastausLomake').style.display = 'flex';
+
+		window.scrollTo({top: 0, behavior: 'smooth'});
 	}
 
 	function suljeVastausLomake() {
