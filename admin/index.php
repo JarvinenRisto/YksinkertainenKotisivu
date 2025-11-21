@@ -253,7 +253,8 @@
 		    echo '<input type="checkbox" name="valitut[]" value="' . intval($rivi['id_kuntokeskus']) . '">';
 
 		    echo '<div>Email osoite: ' . hsc($rivi['sposti']) . '</div>';
-			echo '<div>Ip osoite: ' . hsc($rivi['ip_osoite']) . '</div><br>';
+			//ip osoitetta ei näytetä tällä hetkellä.
+			//echo '<div>Ip osoite: ' . hsc($rivi['ip_osoite']) . '</div><br>';
 		    echo '<div>Viesti: ' . hsc($rivi['viesti']) . '</div><br>';
 		}
 
