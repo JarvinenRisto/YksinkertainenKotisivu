@@ -89,15 +89,15 @@
 	    }
 	}
 
-	if (isset($_GET['poista'])) {
-		if (!isset($_GET['csrf']) || $_GET['csrf'] !== $_SESSION['csrf']) {
-        	die("Virheellinen CSRF-token!");
-    	}
-		
-		$tunniste = intval($_GET['poista']);
-		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
-		$lauseke->bind_param("i", $tunniste);
-		$lauseke->execute();
+	if (isset($_POST['poista'])) {
+	    if (!isset($_POST['csrf']) || $_POST['csrf'] !== $_SESSION['csrf']) {
+	        die("Virheellinen CSRF-token!");
+	    }
+	
+	    $tunniste = intval($_POST['poista']);
+	    $lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
+	    $lauseke->bind_param("i", $tunniste);
+	    $lauseke->execute();
 	}
 
 	if (isset($_POST['poista_valitut']) && !empty($_POST['valitut'])) {
@@ -223,7 +223,7 @@
 </footer>
 
 <script>
-	const CSRF = "<?php echo $csrf; ?>";
+	const CSRF = "<?php echo json_encode($_SESSION['csrf']); ?>";
 	
 	function avaaVastausLomake(nimi, email, viesti) {
 		document.getElementById('vastausLomake_nimi').innerText = nimi;
@@ -262,9 +262,22 @@
 	}
 
 	function poista(id) {
-    	if (confirm("Haluatko varmasti poistaa viestin?")) {
-        	window.location.href = "?poista=" + id + "&csrf=" + encodeURIComponent(CSRF);
-    	}
+	    if (!confirm("Haluatko varmasti poistaa viestin?")) {
+	        return;
+	    }
+	
+	    let lomakeData = new FormData();
+	    lomakeData.append("poista", id);
+	    lomakeData.append("csrf", CSRF);
+	
+	    fetch("index.php", {
+	        method: "POST",
+	        body: data
+	    })
+	    .then(r => r.text())
+	    .then(t => {
+	        location.reload();
+	    });
 	}
 
 	suljeVastausLomake();
