@@ -144,16 +144,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		if ($tulos['havaittu']) {
 			$ehkaRoskapostia = 1;
 		}
-
+		
 		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (nimi, sposti, viesti, ehkaRoskapostia, ip_osoite) VALUES (?, ?, ?, ?, ?)");
-
-		if ($lauseke->execute([$nimi, $email, $viesti, $ehkaRoskapostia, $ipOsoite])) {
-			$lauseke->close();
-			echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 5 sekunnin kuluttua.';
-			header("Refresh: 5; URL=index.html");
-			exit;
+		$lauseke->bind_param("sssis", $nimi, $email, $viesti, $ehkaRoskapostia, $ipOsoite);
+		
+		if ($lauseke->execute()) {
+		    $lauseke->close();
+		    header("Refresh: 5; URL=index.html");
+		    echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 5 sekunnin kuluttua.';
+		    exit;
 		} else {
-			echo "Viestin lähetys epäonnistui.";
+		    $lauseke->close();
+		    tulostaVirhe("Viestin lähetys epäonnistui.", 500);
 		}
 
 	} else {
