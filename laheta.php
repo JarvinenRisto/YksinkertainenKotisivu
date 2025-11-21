@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	pyyntoRaja($sql, $ipOsoite);
 
-	$secret = getenv('RECAPTCHA_SECRET');
+	$secret = '6LflpxAsAAAAABRrgOE59ph2zqj5SDeEBz5QaWzb';
     $response = $_POST['g-recaptcha-response'];
 
 	$captchaSivu = curl_init("https://www.google.com/recaptcha/api/siteverify");
@@ -135,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 		$ehkaRoskapostia = 0;
 		
-		$moderointi = new OpenAI_Moderointi(getenv("OPENAI_API_KEY")); 
+		$moderointi = new OpenAI_Moderointi('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'); 
 		$tarkistettava = $nimi . ' ' . $email . ' ' . $viesti; 
 		$tulos = $moderointi->tarkista($tarkistettava);
 
@@ -153,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		}
 
 		$lauseke = $sql->prepare("INSERT INTO Kuntokeskus_viestit (nimi, sposti, viesti, ehkaRoskapostia, ip_osoite, md5_hash) VALUES (?, ?, ?, ?, ?, ?)");
-		$lauseke->bind_param("sssis", $nimi, $email, $viesti, $ehkaRoskapostia, $ipOsoite, $hash);
+		$lauseke->bind_param("sssiss", $nimi, $email, $viesti, $ehkaRoskapostia, $ipOsoite, $hash);
 		
 		if ($lauseke->execute()) {
 		    $lauseke->close();
