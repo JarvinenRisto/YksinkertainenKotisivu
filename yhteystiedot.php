@@ -1,19 +1,25 @@
 <?php
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'secure' => true,
-    'httponly' => true,
-    'samesite' => 'Lax'
-]);
+	header("X-Content-Type-Options: nosniff"); 
+	header("Referrer-Policy: no-referrer-when-downgrade"); 
+	header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload"); 
+	header("Permissions-Policy: geolocation=(), microphone=()"); 
+	header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';");
 
-session_start();
-
-if (empty($_SESSION['csrf'])) {
-    $_SESSION['csrf'] = bin2hex(random_bytes(32));
-}
-
-$_SESSION['lomake_on_ladattu'] = time();
+	session_set_cookie_params([
+	    'lifetime' => 0,
+	    'path' => '/',
+	    'secure' => true,
+	    'httponly' => true,
+	    'samesite' => 'Lax'
+	]);
+	
+	session_start();
+	
+	if (empty($_SESSION['csrf'])) {
+	    $_SESSION['csrf'] = bin2hex(random_bytes(32));
+	}
+	
+	$_SESSION['lomake_on_ladattu'] = time();
 ?>
 
 <!DOCTYPE html>
