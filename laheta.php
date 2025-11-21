@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	pyyntoRaja($sql, $ipOsoite);
 
 	$secret = getenv('RECAPTCHA_SECRET');
-    $response = $_POST['g-recaptcha'];
+    $response = $_POST['g-recaptcha-response'];
 
 	$captchaSivu = curl_init("https://www.google.com/recaptcha/api/siteverify");
 
