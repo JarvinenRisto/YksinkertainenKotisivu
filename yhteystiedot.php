@@ -74,6 +74,8 @@ $_SESSION['lomake_on_ladattu'] = time();
     <button type="submit">Lähetä</button>
 </form>
 
+<p>Tarkistamme automaattisesti lähetetyt viestit haitallisen sisällön, kuten uhkailun, varalta. Lähettämällä tämän lomakkeen hyväksyt automaattisesti kyseisen tarkistuksen.</p>
+	
 </section>
 
 
