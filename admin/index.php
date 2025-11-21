@@ -126,6 +126,12 @@
 	}
 
 	$tila = $_GET['tila'] ?? 'inbox';
+
+	$sallitutTilat = ['inbox', 'spam'];
+	
+	if (!in_array($tila, $sallitutTilat, true)) {
+	    $tila = 'inbox';
+	}
 	
 	$tuloksetPerSivu = 15;
 	$sivu = isset($_GET['sivu']) ? intval($_GET['sivu']) : 1;
