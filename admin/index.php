@@ -1,3 +1,11 @@
+<?php
+	session_start();
+
+	if (!isset($_SESSION['csrf'])) {
+	    $_SESSION['csrf'] = bin2hex(random_bytes(16));
+	}	
+?>
+
 <!DOCTYPE html>
 <html lang="fi"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -82,6 +90,10 @@
 	}
 
 	if (isset($_GET['poista'])) {
+		if (!isset($_GET['csrf']) || $_GET['csrf'] !== $_SESSION['csrf']) {
+        	die("Virheellinen CSRF-token!");
+    	}
+		
 		$tunniste = intval($_GET['poista']);
 		$lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
 		$lauseke->bind_param("i", $tunniste);
@@ -89,6 +101,10 @@
 	}
 
 	if (isset($_POST['poista_valitut']) && !empty($_POST['valitut'])) {
+		if (!isset($_POST['csrf']) || $_POST['csrf'] !== $_SESSION['csrf']) {
+        	die("Virheellinen CSRF-token!");
+    	}
+		
 	    $tunnisteet = $_POST['valitut'];
 	
 		$paikat = implode(',', array_fill(0, count($tunnisteet), '?'));
@@ -176,7 +192,8 @@
 		echo "</div><br>";
 
 		echo '<form method="POST">';
-
+		echo '<input type="hidden" name="csrf" value="' . $_SESSION['csrf'] . '">';
+		
 		foreach ($tulos as $rivi) {
 		    echo 'Nimi: ' . hsc($rivi['nimi']);
 			echo ' <a href="#" onclick="avaaVastausLomake('
@@ -206,6 +223,8 @@
 </footer>
 
 <script>
+	const CSRF = "<?php echo $csrf; ?>";
+	
 	function avaaVastausLomake(nimi, email, viesti) {
 		document.getElementById('vastausLomake_nimi').innerText = nimi;
 		document.getElementById('vastausLomake_email').innerText = email;
@@ -244,7 +263,7 @@
 
 	function poista(id) {
     	if (confirm("Haluatko varmasti poistaa viestin?")) {
-        	window.location.href = "?poista=" + id;
+        	window.location.href = "?poista=" + id + "&csrf=" + encodeURIComponent(CSRF);
     	}
 	}
 
