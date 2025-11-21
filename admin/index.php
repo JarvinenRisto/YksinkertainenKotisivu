@@ -255,7 +255,17 @@
 
 <script nonce="<?= $nonce ?>">
 	const CSRF = "<?php echo $_SESSION['csrf']; ?>";
-	
+
+	document.querySelectorAll('.vastaus-nappi').forEach(nappi => {
+	    nappi.addEventListener('click', function(tapahtuma) {
+	        tapahtuma.preventDefault();
+	        const nimi = this.dataset.nimi;
+	        const email = this.dataset.email;
+	        const viesti = this.dataset.viesti;
+	        avaaVastausLomake(nimi, email, viesti);
+	    });
+	});
+
 	function avaaVastausLomake(nimi, email, viesti) {
 	    document.getElementById('vastausLomake_nimi').textContent = nimi;
 	    document.getElementById('vastausLomake_email').textContent = email;
