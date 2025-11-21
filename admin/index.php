@@ -46,8 +46,8 @@
     <textarea id="vastausLomake_vastaa" placeholder="Kirjoita vastaus..."></textarea><br>
 
 	<div class="vastausLomake_buttons">
-		<button onclick="suljeVastausLomake()">Sulje</button>
-    	<button onclick="lahetaVastaus()">Lähetä</button><br>
+		<button type="button" onclick="suljeVastausLomake()">Sulje</button>
+    	<button type="button" onclick="lahetaVastaus()">Lähetä</button><br>
 	</div>
 </div>
 
