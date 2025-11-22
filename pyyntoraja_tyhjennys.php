@@ -1,6 +1,6 @@
 <?php
   //Tämä tiedosto ajetaan cronilla kerran minuutissa.
-
+  //Vastaavaa voi soveltaa tyhjentämään spam laatikon, esimerkiksi kerran viikossa.
 	$nimi = $_SERVER['DB_USERNAME'];
 	$tietokanta = 'DB_P82253';
 	$salasana = $_SERVER['DB_PASSWORD'];
