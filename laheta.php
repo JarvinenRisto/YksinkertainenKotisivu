@@ -74,7 +74,7 @@ function istuntoPyyntoRaja() {
 
 	if (isset($_SESSION['viimeksiLahetetty']) && 
 			($nyt - $_SESSION['viimeksiLahetetty']) < $VIIVE) {
-		tulostaVirhe("Liian lyhyt aika kulunut edellisen viestin lähetyksestä samalla selaimella! (20 sekuntia)", 429);
+		tulostaVirhe("Liian lyhyt aika kulunut edellisen viestin lähetyksestä samalla selaimella! (odotusaika 20 sekuntia)", 429);
     }
 	
 	$_SESSION['viimeksiLahetetty'] = $nyt;
