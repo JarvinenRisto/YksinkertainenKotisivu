@@ -57,22 +57,34 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
 function onkoLomakeLadattu() {
 
 	if (!isset($_SESSION['lomake_on_ladattu'])) {
-    	die("Lomaketta ei ole ladattu! Keksit (cookies) puuttuu??");
+		tulostaVirhe(429, "Lomaketta ei ole ladattu! Keksit (cookies) puuttuu??");
 	}
 
 	$aika = time() - $_SESSION['lomake_on_ladattu'];
 
 	if ($aika < 3) {
-    	die("Lähetetty liian nopeasti, taijat olla botti.");
+		tulostaVirhe(429, "Lähetetty liian nopeasti, taijat olla botti.");
 	}
 
 	unset($_SESSION['lomake_on_ladattu']);
 }
 
+function istuntoPyyntoRaja() {
+	$VIIVE = 20;
+	$nyt = time();
+
+	if (isset($_SESSION['viimeksiLahetetty']) && 
+			($nyt - $_SESSION['viimeksiLahetetty']) < $VIIVE) {
+		tulostaVirhe(429, "Liian lyhyt aika kulunut edellisen viestin lähetyksestä samalla selaimella!");
+    }
+	
+	$_SESSION['viimeksiLahetetty'] = $nyt;
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 	onkoLomakeLadattu();
-
+	istuntoPyyntoRaja();
 	tarkistaCsrf();
 	
 	//bottitarkistusta
