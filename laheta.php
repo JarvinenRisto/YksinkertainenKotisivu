@@ -25,10 +25,13 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
     $RAJA = 10;
     $vanhaAika = time() - $AIKA_SEKUNTEINA;
 
+    $sql->begin_transaction();
+
     $lauseke = $sql->prepare("
         SELECT COUNT(*) 
         FROM Kuntokeskus_pyyntoraja 
-        WHERE ip_osoite = ? AND aikaleima > ?
+        WHERE ip_osoite = ? AND aikaleima >= ?
+        FOR UPDATE
     ");
     $lauseke->bind_param("si", $ipOsoite, $vanhaAika);
     $lauseke->execute();
@@ -37,11 +40,11 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
     $lauseke->close();
 
     if ($maara >= $RAJA) {
+        $sql->rollback();
         tulostaVirhe("Liikaa pyyntöjä samasta IP:stä. Yritä hetken päästä uudelleen!", 429);
     }
 
     $aika = time();
-
     $lauseke = $sql->prepare("
         INSERT INTO Kuntokeskus_pyyntoraja (ip_osoite, aikaleima)
         VALUES (?, ?)
@@ -49,6 +52,8 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
     $lauseke->bind_param("si", $ipOsoite, $aika);
     $lauseke->execute();
     $lauseke->close();
+
+    $sql->commit();
 }
 
 function onkoLomakeLadattu() {
