@@ -23,6 +23,6 @@
 	$sql->query("CREATE TABLE IF NOT EXISTS Kuntokeskus_pyyntoraja (
     	ip_osoite VARCHAR(45) NOT NULL,
 		aikaleima INT NOT NULL,
-		INDEX (ip_osoite));"
+		INDEX ip_time (ip_osoite, aikaleima));"
 	);
 ?>
