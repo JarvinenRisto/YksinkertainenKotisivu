@@ -5,7 +5,7 @@
 	header("Permissions-Policy: geolocation=(), microphone=()"); 
 	header("Content-Security-Policy: 
 		default-src 'self'; 
-		script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; 
+		script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://www.gstatic.com https://www.google.com;
 		img-src 'self' https://www.gstatic.com/recaptcha/; 
 		style-src 'self' 'unsafe-inline';
 		frame-src https://www.google.com/recaptcha/;
