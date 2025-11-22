@@ -40,8 +40,7 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
     $lauseke->close();
 
     if ($maara >= $RAJA) {
-        http_response_code(429);
-        die("Liikaa pyyntöjä samasta IP-osoitteesta. Yritä myöhemmin uudelleen!");
+		tulostaVirhe("Liikaa pyyntöjä samasta IP-osoitteesta. Yritä myöhemmin uudelleen!", 429);
     }
 
     $aikaleima = time();
@@ -57,13 +56,13 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
 function onkoLomakeLadattu() {
 
 	if (!isset($_SESSION['lomake_on_ladattu'])) {
-		tulostaVirhe(429, "Lomaketta ei ole ladattu! Keksit (cookies) puuttuu??");
+		tulostaVirhe("Lomaketta ei ole ladattu! Keksit (cookies) puuttuu??", 429);
 	}
 
 	$aika = time() - $_SESSION['lomake_on_ladattu'];
 
 	if ($aika < 3) {
-		tulostaVirhe(429, "Lähetetty liian nopeasti, taijat olla botti.");
+		tulostaVirhe("Lähetetty liian nopeasti, taijat olla botti.", 429);
 	}
 
 	unset($_SESSION['lomake_on_ladattu']);
@@ -75,7 +74,7 @@ function istuntoPyyntoRaja() {
 
 	if (isset($_SESSION['viimeksiLahetetty']) && 
 			($nyt - $_SESSION['viimeksiLahetetty']) < $VIIVE) {
-		tulostaVirhe(429, "Liian lyhyt aika kulunut edellisen viestin lähetyksestä samalla selaimella!");
+		tulostaVirhe("Liian lyhyt aika kulunut edellisen viestin lähetyksestä samalla selaimella!", 429);
     }
 	
 	$_SESSION['viimeksiLahetetty'] = $nyt;
@@ -89,8 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	
 	//bottitarkistusta
 	if (!empty($_POST['homepage'])) {
-    	http_response_code(400);
-    	die();
+    	tulostaVirhe("Botti täytti homepage fieldin", 400)
 	}
 
 	$ipOsoite = $_SERVER['REMOTE_ADDR'];
