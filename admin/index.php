@@ -256,7 +256,7 @@
 		    echo '<div>Email osoite: ' . hsc($rivi['sposti']) . '</div>';
 			//Ip osoitetta ei näytetä tällä hetkellä.
 			//echo '<div>Ip osoite: ' . hsc($rivi['ip_osoite']) . '</div>';
-		    echo '<br><div>Viesti: <p>' . hsc($rivi['viesti']) . '</p></div>';
+		    echo '<div><p>Viesti: ' . hsc($rivi['viesti']) . '</p></div>';
 		}
 
 		echo '<button type="submit" name="poista_valitut" onclick="return confirm(\'Haluatko varmasti poistaa valitut viestit?\')">Poista valitut</button>';
