@@ -11,7 +11,7 @@ Salasana: 52,5koP3kj,3mc0X906
 - ReCaptcha
 
 ## Muut ominaisuudet muun muassa
-3 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
+1 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
 
 POST pyyntöraja, 10 pyyntöä per ip / per minuutti ja jossa huonoa voi olla jos jaetussa verkossa samaan aikaan lähetetään lomake että raja tulee vastaan. 
 
