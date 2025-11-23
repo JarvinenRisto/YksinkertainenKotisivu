@@ -20,7 +20,8 @@
 	]);
 	
 	session_start();
-	
+
+    //csrf parempi toteutus on ilman sessiota ja HMAC käyttäen
 	if (empty($_SESSION['csrf'])) {
 	    $_SESSION['csrf'] = bin2hex(random_bytes(32));
 	}
