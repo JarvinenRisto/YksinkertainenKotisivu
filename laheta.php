@@ -128,7 +128,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$email = trim(str_replace(["\n", "\r"], "", $_POST['email']));
 		$viesti = trim($_POST['viesti'] ?? '');
 
-		$pituus = mb_strlen($viesti, 'UTF-8');;
+		$pituus = mb_strlen($name, 'UTF-8');
+		if ($pituus > 255) {
+			die("Yli 255 merkin pituinen nimi.");
+		}
+		
+		$pituus = mb_strlen($viesti, 'UTF-8');
 
 		if ($pituus < 8) {
 			die("Alle 8 merkin pituinen viesti.");
