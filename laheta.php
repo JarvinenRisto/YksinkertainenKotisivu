@@ -145,8 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$ehkaRoskapostia = 0;
 		
 		$moderointi = new OpenAI_Moderointi(getenv('OPENAI_API_KEY')); 
-		$tarkistettava = $nimi . ' ' . $email . ' ' . $viesti; 
-		$tulos = $moderointi->tarkista($tarkistettava);
+		$tulos = $moderointi->tarkista($viesti);
 
 		$hash = md5($viesti);
 
