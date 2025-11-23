@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	
 	//bottitarkistusta
 	if (!empty($_POST['homepage'])) {
-    	tulostaVirhe("Botti täytti homepage fieldin", 400)
+    	tulostaVirhe("Botti täytti homepage fieldin", 400);
 	}
 
 	$ipOsoite = $_SERVER['REMOTE_ADDR'];
