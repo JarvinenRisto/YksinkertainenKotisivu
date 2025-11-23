@@ -124,11 +124,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($captcha_success->success) {
 
-		$name = trim(str_replace(["\n", "\r"], "", $_POST['nimi']));
+		$nimi = trim(str_replace(["\n", "\r"], "", $_POST['nimi']));
 		$email = trim(str_replace(["\n", "\r"], "", $_POST['email']));
 		$viesti = trim($_POST['viesti'] ?? '');
 
-		$pituus = mb_strlen($name, 'UTF-8');
+		$pituus = mb_strlen($nimi, 'UTF-8');
 		if ($pituus > 255) {
 			die("Yli 255 merkin pituinen nimi.");
 		}
