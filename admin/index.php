@@ -75,15 +75,18 @@
 <?php
 	require_once('tietokanta.php');
 
-	function tarkista_CSRF() {
-		if (!isset($_POST['csrf']) || $_POST['csrf'] !== $_SESSION['csrf']) {
-			http_response_code(403);
-    		die("Virheellinen CSRF!");
-		}
+	function tarkistaCsrf() {
+	    $csrf = $_POST['csrf'] ?? '';
+	    $tallennettu = $_SESSION['csrf'] ?? '';
+	
+	    unset($_SESSION['csrf']);
+	    if (empty($csrf) || empty($tallennettu) || !hash_equals($tallennettu, $csrf)) {
+	        tulostaVirhe("Virheellinen lomaketunniste (CSRF).", 400);
+	    }
 	}
 
 	if (isset($_POST['lahetaEmail'])) {
-	    tarkista_CSRF();
+	    tarkistaCsrf();
 	
 	    $nimi    = trim($_POST['nimi'] ?? '');
 	    $email   = trim($_POST['email'] ?? '');
@@ -129,7 +132,7 @@
 	}
 
 	if (isset($_POST['poista'])) {
-	    tarkista_CSRF();
+	    tarkistaCsrf();
 	
 	    $tunniste = intval($_POST['poista']);
 	    $lauseke = $sql->prepare("DELETE FROM Kuntokeskus_viestit WHERE id_kuntokeskus = ?");
@@ -138,7 +141,7 @@
 	}
 
 	if (isset($_POST['poista_valitut']) && !empty($_POST['valitut'])) {
-		tarkista_CSRF();
+		tarkistaCsrf();
 		
 	    $tunnisteet = array_map('intval', $_POST['valitut']);
 	
