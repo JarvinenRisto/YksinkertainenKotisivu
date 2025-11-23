@@ -124,8 +124,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($captcha_success->success) {
 
-		$nimi   = trim($_POST['nimi'] ?? '');
-		$email  = trim($_POST['email'] ?? '');
+		$name = trim(str_replace(["\n", "\r"], "", $name));
+		$email = trim(str_replace(["\n", "\r"], "", $email));
 		$viesti = trim($_POST['viesti'] ?? '');
 
 		$pituus = mb_strlen($viesti, 'UTF-8');;
