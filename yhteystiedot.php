@@ -87,7 +87,7 @@
     <button type="submit">Lähetä</button>
 </form>
 
-<p>Tämän lomakkeen kautta lähetetyt viestit tarkistetaan automaattisesti haitallisen sisällön varalta (esimerkiksi uhkailu tai muu väärinkäyttö). Lomakkeen lähettämällä hyväksyt kyseisen tarkistuksen osana palvelun suojausta.</p>
+<p>Lomakkeen kautta lähetetty viesti tarkistetaan automaattisesti haitallisen sisällön varalta. Tarkistus tehdään ulkopuolisella palvelulla (OpenAI), jolle lomakkeen sisältö lähetetään analysoitavaksi. Lähettämällä lomakkeen hyväksyt tämän tarkistuksen osana palvelun turvallista toimintaa.</p>
 	
 </section>
 
