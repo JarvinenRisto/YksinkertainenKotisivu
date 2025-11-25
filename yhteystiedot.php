@@ -60,6 +60,8 @@
 
     <h3>Yhteydenottolomake</h3>
 
+<p>Huomio: 20 sekunnin odotusaika onnistuneen viestin lähetyksen jälkeen, joten suositus on että viesti mietitty. Minimi merkkiraja 8 ja max 4000 viestissä, nimessä max merkkiraja 150.</p>
+	
 <form id="lomake" action="laheta.php" method="POST">
 	<input type="hidden" name="csrf" value="<?=htmlspecialchars($_SESSION['csrf'], ENT_QUOTES, 'UTF-8')?>">
 	
@@ -88,7 +90,7 @@
     <button type="submit">Lähetä</button>
 </form>
 
-<p>Minimi merkkiraja 8 ja max 4000 viestissä, nimessä max merkkiraja 150. Lomakkeen lähettämisen yhteydessä tallennamme lomaketiedot ja lähetyshetken IP-osoitteen palvelun turvallisuuden ja väärinkäytösten estämisen vuoksi. Lomakkeen sisältö tarkistetaan automaattisesti haitallisen sisällön varalta ulkopuolisella analyysipalvelulla (OpenAI).</p>	
+<p>Lomakkeen lähettämisen yhteydessä tallennamme lomaketiedot ja lähetyshetken IP-osoitteen palvelun turvallisuuden ja väärinkäytösten estämisen vuoksi. Lomakkeen sisältö tarkistetaan automaattisesti haitallisen sisällön varalta ulkopuolisella analyysipalvelulla (OpenAI).</p>	
 
 </section>
 
