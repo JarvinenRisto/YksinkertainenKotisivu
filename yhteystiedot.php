@@ -88,7 +88,7 @@
     <button type="submit">Lähetä</button>
 </form>
 
-<p>Lomakkeen lähettämisen yhteydessä tallennamme lomaketiedot ja lähetyshetken IP-osoitteen palvelun turvallisuuden ja väärinkäytösten estämisen vuoksi. Lomakkeen sisältö tarkistetaan automaattisesti haitallisen sisällön varalta ulkopuolisella analyysipalvelulla (OpenAI).</p>	
+<p>Minimi merkkiraja 8 ja max 4000 viestissä, nimessä max merkkiraja 150. Lomakkeen lähettämisen yhteydessä tallennamme lomaketiedot ja lähetyshetken IP-osoitteen palvelun turvallisuuden ja väärinkäytösten estämisen vuoksi. Lomakkeen sisältö tarkistetaan automaattisesti haitallisen sisällön varalta ulkopuolisella analyysipalvelulla (OpenAI).</p>	
 
 </section>
 
