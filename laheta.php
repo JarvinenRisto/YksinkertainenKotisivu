@@ -10,6 +10,11 @@ function tulostaVirhe($viesti = "Virhe palvelimella.", $koodi = 400) {
     exit($viesti);
 }
 
+function tulostaVirheNollaaAika($viesti) {
+	$_SESSION['viimeksiLahetetty'] = 20;
+	exit($viesti);
+}
+
 function tarkistaCsrf() {
     $csrf = $_POST['csrf'] ?? '';
     $tallennettu = $_SESSION['csrf'] ?? '';
@@ -129,22 +134,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$viesti = trim($_POST['viesti'] ?? '');
 
 		$pituus = mb_strlen($nimi, 'UTF-8');
-		if ($pituus > 255) {
-			die("Yli 255 merkin pituinen nimi.");
+		if ($pituus > 150) {
+			tulostaVirheNollaaAika("Yli 150 merkin pituinen nimi.");
 		}
 		
 		$pituus = mb_strlen($viesti, 'UTF-8');
 
 		if ($pituus < 8) {
-			die("Alle 8 merkin pituinen viesti.");
+			tulostaVirheNollaaAika("Alle 8 merkin pituinen viesti.");
 		}
 
 		if ($pituus > 4000) {
-			die("Yli 4000 merkin pituinen viesti.");
+			tulostaVirheNollaaAika("Yli 4000 merkin pituinen viesti.");
 		}
 		
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		    die("Virheellinen sähköposti.");
+			tulostaVirheNollaaAika("Virheellinen sähköposti.");
 		}
 
 		$ehkaRoskapostia = 0;
