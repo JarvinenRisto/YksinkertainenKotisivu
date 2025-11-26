@@ -161,7 +161,7 @@
 	    $tila = 'inbox';
 	}
 	
-	$tuloksetPerSivu = 15;
+	$tuloksetPerSivu = 30;
 	$sivu = isset($_GET['sivu']) ? intval($_GET['sivu']) : 1;
 
 	if ($sivu < 1) {
