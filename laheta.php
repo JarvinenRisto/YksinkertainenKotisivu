@@ -54,13 +54,19 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
 		if (empty($agentti) || strlen($agentti) < 10) {
 			return 1;
 		}
-		
+
+		$onkoSelain = false;
 		$selaimet = ['Mozilla', 'AppleWebKit', 'Gecko', 'Chrome', 'Safari', 'Firefox'];
 		foreach ($selaimet as $selain) {
         	if (stripos($agentti, $selain) !== false) {
-	      		return 0;
+	      		$onkoSelain = true;
+            	break;
         	}
     	}
+
+		if (!$onkoSelain) {
+        	return 1; 
+   	 	}
 		
         return 0;
     }
