@@ -13,7 +13,7 @@ Salasana: 52,5koP3kj,3mc0X906
 ## Muut ominaisuudet muun muassa
 1 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
 
-POST pyyntöraja onnistuneen captchan jälkeen, 60 pyyntöä per ip / per minuutti, jossa ylittävät 1 min sisällä merkataan spämmiksi, jossa huonoa voi olla jos jaetussa verkossa samaan aikaan lähetetään lomake että raja tulee vastaan. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare.
+POST pyyntöraja onnistuneen captchan jälkeen, 20 pyyntöä per ip / per minuutti, jossa ylittävät 1 min sisällä merkataan spämmiksi, jossa huonoa voi olla jos jaetussa verkossa samaan aikaan lähetetään lomake että raja tulee vastaan. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare.
 
 Onko sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa.
 
