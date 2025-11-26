@@ -20,9 +20,13 @@
 		md5_hash CHAR(32) NOT NULL);"
 	);
 
-	$sql->query("CREATE TABLE IF NOT EXISTS Kuntokeskus_pyyntoraja (
-    	ip_osoite VARCHAR(45) NOT NULL,
-		aikaleima INT NOT NULL,
-		INDEX ip_time (ip_osoite, aikaleima));"
-	);
+	$sql->query("
+	CREATE TABLE IF NOT EXISTS Kuntokeskus_pyyntoraja (
+	    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	    ip_osoite VARCHAR(45) NOT NULL,
+	    aikaleima INT UNSIGNED NOT NULL,
+	    PRIMARY KEY (id),
+	    INDEX ip_time (ip_osoite, aikaleima)
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+	");
 ?>
