@@ -90,7 +90,7 @@
     <button type="submit">Lähetä</button>
 </form>
 
-<p>Lomakkeen lähettämisen yhteydessä tallennamme lomaketiedot ja lähetyshetken IP-osoitteen palvelun turvallisuuden ja väärinkäytösten estämisen vuoksi. Lomakkeen sisältö tarkistetaan automaattisesti haitallisen sisällön varalta ulkopuolisella analyysipalvelulla (OpenAI).</p>	
+<p>Lomakkeen lähettämisen yhteydessä tallennamme lomaketiedot ja lähetyshetken IP-osoitteen palvelun turvallisuuden ja väärinkäytösten estämisen vuoksi. Lomakkeen viesti tarkistetaan automaattisesti haitallisen sisällön varalta ulkopuolisella analyysipalvelulla (OpenAI).</p>	
 
 </section>
 
