@@ -15,7 +15,7 @@ Salasana: 52,5koP3kj,3mc0X906
 
 POST pyyntöraja onnistuneen captchan jälkeen, 60 pyyntöä per ip / per minuutti, jonka jälkeen viesti merkataan spämmiksi, jossa huonoa voi olla jos jaetussa verkossa samaan aikaan lähetetään lomake että raja tulee vastaan. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri.
 
-Onko sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa, voisi toki mennä toiseen spam laatikkoon ja openai tunnistamat omaansa.
+Onko sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa.
 
 Jos käyttäjä lähetti lomakkeen nopeammin kuin 3 sekunnissa, lähetys estyy, $SESSION avulla toteutettu. Onko POST pyyntö laitettu sivujen lomakkeen kautta tarkistus, $SESSION tässäkin. $SESSION kohtainen 20 sekunnin viive edellisestä onnistuneesta käyttäjän lomakkeen lähetyksestä. CSRF tarkistus.
 
