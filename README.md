@@ -13,7 +13,7 @@ Salasana: 52,5koP3kj,3mc0X906
 ## Muut ominaisuudet muun muassa
 1 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
 
-POST pyyntöraja onnistuneen captchan jälkeen, 10 pyyntöä per ip / per minuutti ja tuohon yhdistettynä roskainen user-agent tunnistus, jossa rajan ylittävät 1 min sisällä merkataan spämmiksi. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare.
+POST pyyntöraja onnistuneen captchan jälkeen, roskainen user agent tunnistus ja johon yhdistettynä 10 pyyntöä per ip / per minuutti, jossa rajan ylittävät 1 min sisällä merkataan spämmiksi. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare.
 
 Onko sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa.
 
