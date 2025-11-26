@@ -13,7 +13,7 @@ Salasana: 52,5koP3kj,3mc0X906
 ## Muut ominaisuudet muun muassa
 1 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
 
-POST pyyntöraja, 10 pyyntöä per ip / per minuutti ja jossa huonoa voi olla jos jaetussa verkossa samaan aikaan lähetetään lomake että raja tulee vastaan. 
+POST pyyntöraja, 60 pyyntöä per ip / per minuutti ja jossa huonoa voi olla jos jaetussa verkossa samaan aikaan lähetetään lomake että raja tulee vastaan. Oikeilla yrityissivuilla todennäköisesti on käytössä jonkin sortin palomuuri, joka toimii paremmin.
 
 Onko sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa, voisi toki mennä toiseen spam laatikkoon ja openai tunnistamat omaansa.
 
