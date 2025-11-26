@@ -58,7 +58,7 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
 		$selaimet = ['Mozilla', 'AppleWebKit', 'Gecko', 'Chrome', 'Safari', 'Firefox'];
 		foreach ($selaimet as $selain) {
         	if (stripos($agentti, $selain) !== false) {
-	      		return 1;
+	      		return 0;
         	}
     	}
 		
