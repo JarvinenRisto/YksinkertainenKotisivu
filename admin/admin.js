@@ -37,8 +37,8 @@
 		});
 	}
 
-	function poista(id) {
-	    if (!confirm("Haluatko varmasti poistaa viestin?")) {
+	function poista(id, viesti) {
+	    if (!confirm("Haluatko varmasti poistaa viestin? " + viesti)) {
 	        return;
 	    }
 	
