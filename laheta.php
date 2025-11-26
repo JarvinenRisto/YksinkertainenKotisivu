@@ -27,7 +27,7 @@ function tarkistaCsrf() {
 
 function pyyntoRaja(mysqli $sql, string $ipOsoite) {
     $AIKA_SEKUNTEINA = 60;
-    $RAJA = 30;
+    $RAJA = 60;
 
     $nyt = time();
     $vanhaAika = $nyt - $AIKA_SEKUNTEINA;
