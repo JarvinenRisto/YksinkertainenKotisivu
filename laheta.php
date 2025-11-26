@@ -72,8 +72,8 @@ function onkoLomakeLadattu() {
 
 	$aika = time() - $_SESSION['lomake_on_ladattu'];
 
-	if ($aika < 2) {
-		tulostaVirhe("“Lomake lähetettiin poikkeuksellisen nopeasti (2 sekunnin sisällä). Jos et ole botti, yritä uudelleen.", 429);
+	if ($aika < 3) {
+		tulostaVirhe("“Lomake lähetettiin poikkeuksellisen nopeasti (3 sekunnin sisällä). Jos et ole botti, yritä uudelleen.", 429);
 	}
 
 	unset($_SESSION['lomake_on_ladattu']);
@@ -108,8 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     	$ipOsoite = '0.0.0.0';
 	}
 
-	pyyntoRaja($sql, $ipOsoite);
-
 	$secret = getenv('RECAPTCHA_SECRET_KEY');
     $response = $_POST['g-recaptcha-response'];
 
@@ -131,7 +129,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     if ($captcha_success->success) {
-
+		
+		pyyntoRaja($sql, $ipOsoite);
+		
 		$nimi = trim(str_replace(["\n", "\r"], "", $_POST['nimi']));
 		$email = trim(str_replace(["\n", "\r"], "", $_POST['email']));
 		$viesti = trim($_POST['viesti'] ?? '');
