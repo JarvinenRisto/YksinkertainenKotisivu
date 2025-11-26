@@ -27,7 +27,7 @@ function tarkistaCsrf() {
 
 function pyyntoRaja(mysqli $sql, string $ipOsoite) {
     $AIKA_SEKUNTEINA = 60;
-    $RAJA = 60;
+    $RAJA = 30;
 
     $nyt = time();
     $vanhaAika = $nyt - $AIKA_SEKUNTEINA;
@@ -49,8 +49,7 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
 
     if ($maara >= $RAJA) {
         $sql->rollback();
-        tulostaVirhe("Liikaa pyyntöjä samasta IP:stä. Yritä hetken päästä uudelleen!", 429);
-        exit;
+        return 1;
     }
 
     $lauseke = $sql->prepare("
@@ -62,6 +61,7 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
     $lauseke->close();
 
     $sql->commit();
+	return 0;
 }
 
 function onkoLomakeLadattu() {
@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($captcha_success->success) {
 		
-		pyyntoRaja($sql, $ipOsoite);
+		$ehkaRoskapostia = pyyntoRaja($sql, $ipOsoite);
 		
 		$nimi = trim(str_replace(["\n", "\r"], "", $_POST['nimi']));
 		$email = trim(str_replace(["\n", "\r"], "", $_POST['email']));
@@ -155,8 +155,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 			tulostaVirheNollaaAika("Virheellinen sähköposti.");
 		}
 
-		$ehkaRoskapostia = 0;
-		
 		$moderointi = new OpenAI_Moderointi(getenv('OPENAI_API_KEY')); 
 		$tulos = $moderointi->tarkista($viesti);
 
