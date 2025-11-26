@@ -49,7 +49,20 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
 
     if ($maara >= $RAJA) {
         $sql->rollback();
-        return 1;
+
+		$agentti = $_SERVER['HTTP_USER_AGENT'] ?? '';
+		if (empty($agentti) || strlen($agentti) < 10) {
+			return 1;
+		}
+		
+		$selaimet = ['Mozilla', 'AppleWebKit', 'Gecko', 'Chrome', 'Safari', 'Firefox'];
+		foreach ($selaimet as $selain) {
+        	if (stripos($agentti, $selain) !== false) {
+	      		return 1;
+        	}
+    	}
+		
+        return 0;
     }
 
     $lauseke = $sql->prepare("
