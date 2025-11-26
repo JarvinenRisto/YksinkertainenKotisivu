@@ -252,7 +252,7 @@
    		); return false;"> Vastaa,</a>
 
 <?php
-		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ',' . hsc($rivi['viesti']));">Poista</a>, ';
+		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ',' . json_encode($rivi['viesti']));">Poista</a>, ';
 		    
 		    echo '<input type="checkbox" name="valitut[]" value="' . intval($rivi['id_kuntokeskus']) . '">';
 
