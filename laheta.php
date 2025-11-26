@@ -29,12 +29,9 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
 	$onkoRoskaAgentti = false;
 	
 	$agentti = $_SERVER['HTTP_USER_AGENT'] ?? '';
-	if (empty($agentti) || strlen($agentti) < 10) {
-		$onkoRoskaAgentti = true;
-	}
 
 	$onkoSelain = false;
-	$selaimet = ['Mozilla', 'AppleWebKit', 'Gecko', 'Chrome', 'Safari', 'Firefox'];
+	$selaimet = ['Chrome','Safari','Firefox','Edge','OPR','Opera','Gecko','AppleWebKit'];
 	foreach ($selaimet as $selain) {
         if (stripos($agentti, $selain) !== false) {
 	      	$onkoSelain = true;
