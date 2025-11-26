@@ -28,18 +28,21 @@ function tarkistaCsrf() {
 function pyyntoRaja(mysqli $sql, string $ipOsoite) {
     $AIKA_SEKUNTEINA = 60;
     $RAJA = 60;
-    $vanhaAika = time() - $AIKA_SEKUNTEINA;
+
+    $nyt = time();
+    $vanhaAika = $nyt - $AIKA_SEKUNTEINA;
 
     $sql->begin_transaction();
 
     $lauseke = $sql->prepare("
         SELECT COUNT(*) 
-        FROM Kuntokeskus_pyyntoraja 
+        FROM Kuntokeskus_pyyntoraja
         WHERE ip_osoite = ? AND aikaleima >= ?
         FOR UPDATE
     ");
     $lauseke->bind_param("si", $ipOsoite, $vanhaAika);
     $lauseke->execute();
+    $lauseke->store_result();
     $lauseke->bind_result($maara);
     $lauseke->fetch();
     $lauseke->close();
@@ -47,14 +50,14 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
     if ($maara >= $RAJA) {
         $sql->rollback();
         tulostaVirhe("Liikaa pyyntöjä samasta IP:stä. Yritä hetken päästä uudelleen!", 429);
+        exit;
     }
 
-    $aika = time();
     $lauseke = $sql->prepare("
         INSERT INTO Kuntokeskus_pyyntoraja (ip_osoite, aikaleima)
         VALUES (?, ?)
     ");
-    $lauseke->bind_param("si", $ipOsoite, $aika);
+    $lauseke->bind_param("si", $ipOsoite, $nyt);
     $lauseke->execute();
     $lauseke->close();
 
