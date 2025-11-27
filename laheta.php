@@ -158,8 +158,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		$viesti = trim($_POST['viesti'] ?? '');
 
 		$pituus = mb_strlen($nimi, 'UTF-8');
-		if ($pituus > 150) {
-			tulostaVirheNollaaAika("Yli 150 merkin pituinen nimi.");
+		if ($pituus > 100) {
+			tulostaVirheNollaaAika("Yli 100 merkin pituinen nimi.");
 		}
 		
 		$pituus = mb_strlen($viesti, 'UTF-8');
