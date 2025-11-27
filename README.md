@@ -13,13 +13,13 @@ Salasana: 52,5koP3kj,3mc0X906
 ## Muut ominaisuudet muun muassa
 1 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
 
-Roskainen UserAgent tunnistus yhdistettynä osaksi POST pyyntörajoitusta: 10 pyyntöä per ip / per minuutti, jossa rajan ylittävät 1 min sisällä merkataan spämmiksi. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare.
+Roskainen UserAgent tunnistus (huonoa UserAgent spoofattavissa) yhdistettynä osaksi POST pyyntörajoitusta: 10 pyyntöä per ip / per minuutti, jossa rajan ylittävät 1 min sisällä merkataan spämmiksi. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare.
 
 Onko sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa.
 
 Jos käyttäjä lähetti lomakkeen nopeammin kuin 3 sekunnissa, lähetys estyy, $SESSION avulla toteutettu. Onko POST pyyntö laitettu sivujen lomakkeen kautta tarkistus, $SESSION tässäkin. $SESSION kohtainen 20 sekunnin viive edellisestä onnistuneesta käyttäjän lomakkeen lähetyksestä. CSRF tarkistus.
 
-$SESSION voi olla huonoa, pienelle määrälle käyttäjistä, että tarvitsee selaimen keksit (cookies) asetuksen päällä (FireFoxissa keksit estetty: "kaikki evästeet (aiheuttaa sivustovirheitä)" asetus). Käsittääkseni Redis pystyisi toteuttaan näitä anti-flood ominaisuuksia ilman $SESSION käyttöä, mutta sitä ei ole käytössä hostilla, eikä myöskään Apcu.
+$SESSION voi olla huonoa, pienelle määrälle käyttäjistä, että tarvitsee selaimen keksit (cookies) asetuksen päällä (FireFoxissa keksit estetty: "kaikki evästeet (aiheuttaa sivustovirheitä)" asetus). Käsittääkseni Redis pystyisi toteuttaan näitä anti-flood ominaisuuksia ilman $SESSION käyttöä, mutta sitä ei ole käytössä hostilla, eikä myöskään Apcu, MemCached.
 
 Käyttäjän lomakeviestin minimipituus 8 merkkiä, max pituus 4000. 
 
