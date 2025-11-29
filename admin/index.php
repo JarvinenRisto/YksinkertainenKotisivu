@@ -25,10 +25,12 @@
 	if (!isset($_SESSION['csrf'])) {
 	    $_SESSION['csrf'] = bin2hex(random_bytes(32));
 	}	
+
+	require_once('tietokanta.php');
 ?>
 
 <script nonce="<?= $nonce ?>">
-  const CSRF = "<?= $_SESSION['csrf'] ?>";
+  const CSRF = "<?= hsc($_SESSION['csrf']) ?>";
 </script>
 
 <!DOCTYPE html>
@@ -73,8 +75,6 @@
 <script src="admin.js"></script>
 
 <?php
-	require_once('tietokanta.php');
-
 	function tarkistaCsrf() {
 	    $csrf = $_POST['csrf'] ?? '';
 	    $tallennettu = $_SESSION['csrf'] ?? '';
