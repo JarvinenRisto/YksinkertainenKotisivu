@@ -168,8 +168,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 			tulostaVirheNollaaAika("Alle 8 merkin pituinen viesti.");
 		}
 
-		if ($pituus > 4000) {
-			tulostaVirheNollaaAika("Yli 4000 merkin pituinen viesti.");
+		if ($pituus > 3000) {
+			tulostaVirheNollaaAika("Yli 3000 merkin pituinen viesti.");
 		}
 		
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
