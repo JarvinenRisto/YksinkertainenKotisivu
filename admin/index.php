@@ -230,7 +230,7 @@
 		echo "</div><br>";
 
 		echo '<form method="POST">';
-		echo '<input type="hidden" name="csrf" value="' . $_SESSION['csrf'] . '">';
+		echo '<input type="hidden" name="csrf" value="' . hsc($_SESSION['csrf']) . '">';
 		
 		foreach ($tulos as $rivi) {
 		    echo 'Nimi: ' . hsc($rivi['nimi']);
