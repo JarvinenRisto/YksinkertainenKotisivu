@@ -57,3 +57,48 @@
 	}
 
 	suljeVastausLomake();
+
+document.addEventListener("click", function(e) {
+
+    const vastaa = e.target.closest(".link-vastaa");
+    if (vastaa) {
+        e.preventDefault();
+
+        avaaVastausLomake(
+            vastaa.dataset.nimi,
+            vastaa.dataset.email,
+            vastaa.dataset.viesti
+        );
+        return;
+    }
+
+    const poistalinkki = e.target.closest(".link-poista");
+    if (poistalinkki) {
+        e.preventDefault();
+
+        poista(
+            poistalinkki.dataset.id,
+            poistalinkki.dataset.viesti
+        );
+        return;
+    }
+
+    const massaPoisto = e.target.closest(".btn-poista-valitut");
+    if (massaPoisto) {
+        if (!confirm("Haluatko varmasti poistaa valitut viestit?")) {
+            e.preventDefault();
+        }
+    }
+
+ 	if (e.target.id === "btnSulje") {
+        e.preventDefault();
+        suljeVastausLomake();
+        return;
+    }
+
+    if (e.target.id === "btnLaheta") {
+        e.preventDefault();
+        lahetaVastaus();
+        return;
+    }
+});
