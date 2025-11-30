@@ -86,7 +86,11 @@
 	    $email   = trim($_POST['email'] ?? '');
 	    $viesti  = trim($_POST['viesti'] ?? '');
 	    $vastaus = trim($_POST['vastaus'] ?? '');
-	
+
+		if (!mb_check_encoding($vastaus, 'UTF-8')) {
+			die("Virheellinen merkistö.");
+		}
+		
 	    if (preg_match('/[\r\n]/', $nimi) || preg_match('/[\r\n]/', $email)) {
 	        die("Virheellinen syöte.");
 	    }
@@ -246,7 +250,7 @@
 		echo '<a href="#" 
 				class="link-poista" 
 				data-id="' . intval($rivi['id_kuntokeskus']) . '" 
-				data-viesti="' . hsc(json_encode($rivi['viesti'])) . '"
+				data-viesti="' . hsc($rivi['viesti']) . '"
 			>Poista</a>, ';
 
 		echo '<input type="checkbox" name="valitut[]" value="' . intval($rivi['id_kuntokeskus']) . '">';
