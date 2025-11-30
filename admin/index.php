@@ -74,12 +74,9 @@
 	    $csrf = $_POST['csrf'] ?? '';
 	    $tallennettu = $_SESSION['csrf'] ?? '';
 	
-	    unset($_SESSION['csrf']);
 	    if (empty($csrf) || empty($tallennettu) || !hash_equals($tallennettu, $csrf)) {
 	        tulostaVirhe("Virheellinen lomaketunniste (CSRF).", 400);
 	    }
-		
-		$_SESSION['csrf'] = bin2hex(random_bytes(32));
 	}
 
 	if (isset($_POST['lahetaEmail'])) {
