@@ -62,12 +62,12 @@
     <textarea id="vastausLomake_vastaa" placeholder="Kirjoita vastaus..."></textarea><br>
 
 	<div class="vastausLomake_buttons">
-		<button type="button" onclick="suljeVastausLomake()">Sulje</button>
-    	<button type="button" onclick="lahetaVastaus()">Lähetä</button><br>
+		<button type="button" id="btnSulje">Sulje</button>
+		<button type="button" id="btnLaheta">Lähetä</button><br>
 	</div>
 </div>
 
-<script src="admin.js"></script>
+<script nonce="<?= $nonce ?>" src="admin.js"></script>
 
 <?php
 	function tarkistaCsrf() {
@@ -236,33 +236,33 @@
 		foreach ($tulos as $rivi) {
 		    echo 'Nimi: ' . hsc($rivi['nimi']);
 ?>
-		<a href="#" 
-			data-nimi="<?= hsc($rivi['nimi']) ?>" 
-			data-email="<?= hsc($rivi['sposti']) ?>"
-   			data-viesti="<?= hsc($rivi['viesti']) ?>"
-  		 	onclick="avaaVastausLomake(
-        		this.dataset.nimi,
-        		this.dataset.email,
-        		this.dataset.viesti
-   		); return false;"> Vastaa,</a>
+		<a href="#"
+		   class="link-vastaa"
+		   data-nimi="<?= hsc($rivi['nimi']) ?>"
+		   data-email="<?= hsc($rivi['sposti']) ?>"
+		   data-viesti="<?= hsc($rivi['viesti']) ?>"
+		>Vastaa,</a>
 
 <?php
-		    echo '<a href="#" onclick="poista(' . intval($rivi['id_kuntokeskus']) . ', ' . hsc(json_encode($rivi['viesti'])) . ');">Poista</a>, ';
-		    
-		    echo '<input type="checkbox" name="valitut[]" value="' . intval($rivi['id_kuntokeskus']) . '">';
+		echo '<a href="#" 
+				class="link-poista" 
+				data-id="' . intval($rivi['id_kuntokeskus']) . '" 
+				data-viesti="' . hsc(json_encode($rivi['viesti'])) . '"
+			>Poista</a>, ';
 
-		    echo '<div>Email osoite: ' . hsc($rivi['sposti']) . '</div>';
-			//Ip osoitetta ei näytetä tällä hetkellä.
-			//echo '<div>Ip osoite: ' . hsc($rivi['ip_osoite']) . '</div>';
-		    echo '<div><p>Viesti: ' . hsc($rivi['viesti']) . '</p></div>';
+		echo '<input type="checkbox" name="valitut[]" value="' . intval($rivi['id_kuntokeskus']) . '">';
+
+		echo '<div>Email osoite: ' . hsc($rivi['sposti']) . '</div>';
+		echo '<div><p>Viesti: ' . hsc($rivi['viesti']) . '</p></div>';
+
 		}
 
-		echo '<button type="submit" name="poista_valitut" onclick="return confirm(\'Haluatko varmasti poistaa valitut viestit?\')">Poista valitut</button>';
+		echo '<button type="submit" class="btn-poista-valitut" name="poista_valitut">Poista valitut</button>';
 		echo '</form>';
 	}
 ?>
 
-<a href="#yla">Ylös</a>'
+<a href="#yla">Ylös</a>
 <div id="ala"></div>
 
 </section>
