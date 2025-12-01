@@ -149,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 	$captcha_success = json_decode($verifyResponse);
 
 
-    if ($captcha_success->success) {
+    if ($captcha_success !== null && $captcha_success->success) {
 		
 		$ehkaRoskapostia = pyyntoRaja($sql, $ipOsoite);
 		
@@ -206,7 +206,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		}
 
 	} else {
-		die();
+		tulostaVirhe("Captcha epäonnistui.", 400);
 	}
 }
 ?>
