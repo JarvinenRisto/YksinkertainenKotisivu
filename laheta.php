@@ -197,8 +197,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		
 		if ($lauseke->execute()) {
 		    $lauseke->close();
-		    header("Refresh: 2; URL=index.html");
-		    echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 2 sekunnin kuluttua.';
+		    header("Refresh: 3; URL=index.html");
+		    echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 3 sekunnin kuluttua.';
 		    exit;
 		} else {
 		    $lauseke->close();
