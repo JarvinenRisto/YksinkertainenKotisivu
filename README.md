@@ -13,7 +13,7 @@ Salasana: 52,5koP3kj,3mc0X906
 ## Muut ominaisuudet muun muassa
 3 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
 
-IP kohtainen POST rajoitus (10 pyyntöä/min/IP) aktivoituu vain silloin, kun UserAgent ei läpäise roskatarkistusta, jolloinka ylimenevä osa merkataan spämmiksi. Huonoa on että UserAgent on spoofattavissa. Huonoa myös että jaetuissa verkoissa, voi raja tulla vastaan. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare. Mutta nuo tarkistukset olemassa tässä, vain maininnan vuoksi.
+IP kohtainen POST rajoitus (10 pyyntöä/min/IP) aktivoituu vain silloin, kun UserAgent ei läpäise roskatarkistusta, jolloinka ylimenevä osa merkataan spämmiksi. Huonoa on että UserAgent on spoofattavissa. Huonoa myös että jaetuissa verkoissa, voi raja tulla vastaan. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare. Mutta nuo tarkistukset ovat tässä mukana, vain maininnan vuoksi.
 
 Onko sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa.
 
