@@ -6,7 +6,7 @@
 
 	$nonce = base64_encode(random_bytes(16));
 
-	header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-{$nonce}'; style-src 'self'; img-src 'self'; connect-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self';");
+	header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-'.$nonce; style-src 'self'; img-src 'self'; connect-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self';");
 
 	session_set_cookie_params([
 	  'lifetime' => 0,
