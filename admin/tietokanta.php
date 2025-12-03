@@ -25,7 +25,7 @@
 	    ip_osoite VARBINARY(16) NOT NULL,
 	    ampari INT UNSIGNED NOT NULL,
 	    maara INT UNSIGNED NOT NULL DEFAULT 1,
-	    PRIMARY KEY (ip_osoite, bucket)
+	    PRIMARY KEY (ip_osoite, ampari)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 	");
 ?>
