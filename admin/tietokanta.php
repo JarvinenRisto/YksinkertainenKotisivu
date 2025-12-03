@@ -22,11 +22,10 @@
 
 	$sql->query("
 	CREATE TABLE IF NOT EXISTS Kuntokeskus_pyyntoraja (
-	    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	    ip_osoite VARCHAR(45) NOT NULL,
-	    aikaleima INT UNSIGNED NOT NULL,
-	    PRIMARY KEY (id),
-	    INDEX ip_time (ip_osoite, aikaleima)
+	    ip_osoite VARBINARY(16) NOT NULL,
+	    ampari INT UNSIGNED NOT NULL,
+	    maara INT UNSIGNED NOT NULL DEFAULT 1,
+	    PRIMARY KEY (ip_osoite, bucket)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 	");
 ?>
