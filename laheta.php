@@ -47,42 +47,36 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
 		return 0;
 	}
 	
-	$AIKA_SEKUNTEINA = 60;
-	$RAJA = 10;
-	
-	$nyt = time();
-	$vanhaAika = $nyt - $AIKA_SEKUNTEINA;
-	
-	$sql->begin_transaction();
-	
+	$binaariIp = inet_pton($ipOsoite);
+    if ($binaariIp === false) {
+        return 1;
+    }
+
+    $RAJA = 10;
+    $ampari = intdiv(time(), 60);
+
+    $lauseke = $sql->prepare("
+        INSERT INTO Kuntokeskus_pyyntoraja (ip_osoite, ampari, maara)
+        VALUES (?, ?, 1)
+        ON DUPLICATE KEY UPDATE maara = maara + 1
+    ");
+    $lauseke->bind_param("si", $binaariIp, $ampari);
+    $lauseke->execute();
+    $lauseke->close();
+
 	$lauseke = $sql->prepare("
-	     SELECT COUNT(*) 
-	    FROM Kuntokeskus_pyyntoraja
-	    WHERE ip_osoite = ? AND aikaleima >= ?
-	    FOR UPDATE
-	");
-	$lauseke->bind_param("si", $ipOsoite, $vanhaAika);
-	$lauseke->execute();
-	$lauseke->store_result();
-	$lauseke->bind_result($maara);
-	$lauseke->fetch();
-	$lauseke->close();
-	
-	if ($maara >= $RAJA) {
-	     $sql->rollback();
-	    return 1;
-	}
-	
-	$lauseke = $sql->prepare("
-	    INSERT INTO Kuntokeskus_pyyntoraja (ip_osoite, aikaleima)
-	    VALUES (?, ?)
-	");
- 	$lauseke->bind_param("si", $ipOsoite, $nyt);
-	$lauseke->execute();
-	$lauseke->close();
-	
-	$sql->commit();
-	return 0;
+        SELECT maara 
+        FROM Kuntokeskus_pyyntoraja
+        WHERE ip_osoite = ? AND ampari = ?
+        LIMIT 1
+    ");
+    $lauseke ->bind_param("si", $binaariIp, $ampari);
+    $lauseke ->execute();
+    $lauseke ->bind_result($maara);
+    $lauseke ->fetch();
+    $lauseke ->close();
+
+    return ($maara > $RAJA) ? 1 : 0;
 }
 
 function onkoLomakeLadattu() {
