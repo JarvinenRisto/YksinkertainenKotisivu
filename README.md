@@ -27,6 +27,7 @@ Personal trainer sivu:
 <img width="956" height="475" alt="trainer" src="https://github.com/user-attachments/assets/d79888c9-ee20-4cec-9c67-2c500625b36c" />
 
 Admin sivu:
+
 <img width="888" height="629" alt="kuva" src="https://github.com/user-attachments/assets/a641d58e-89a2-4ea7-bddc-b84f4eedf9dd" />
 
 
