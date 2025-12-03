@@ -45,6 +45,7 @@ class OpenAI_Moderointi
         $vastaus = curl_exec($moderointiSivu);
 
         if (!$vastaus) {
+            curl_close($moderointiSivu);
             return [
                 "ok" => false,
                 "havaittu" => false,
@@ -65,6 +66,15 @@ class OpenAI_Moderointi
         }
 
         $data = json_decode($vastaus, true);
+
+        if (!isset($data["results"][0])) {
+            return [
+                "ok" => false,
+                "havaittu" => false,
+                "virhe" => "Odottamaton API-vastaus",
+                "raw" => $data
+            ];
+        }
 
         $kategoriat = $data["results"][0]["categories"] ?? [];
 
