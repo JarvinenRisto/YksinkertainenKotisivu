@@ -117,11 +117,16 @@ form button:hover {
 
 #kotisivu {
     position: absolute !important;
-    left: -9999px;
-    top: -9999px;
-    height: 0;
-    width: 0;
-    overflow: hidden;
+    left: -9999px !important;
+    top: auto !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
 }
 
 .staff-card {
