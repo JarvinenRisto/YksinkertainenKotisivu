@@ -93,8 +93,8 @@ function onkoLomakeLadattu() {
 
 	$aika = time() - $_SESSION['lomake_on_ladattu'];
 
-	if ($aika < 3) {
-		tulostaVirhe("“Lomake lähetettiin poikkeuksellisen nopeasti (3 sekunnin sisällä). Jos et ole botti, yritä uudelleen.", 429);
+	if ($aika < 2) {
+		tulostaVirhe("“Lomake lähetettiin poikkeuksellisen nopeasti (2 sekunnin sisällä). Jos et ole botti, yritä uudelleen.", 429);
 	}
 
 	unset($_SESSION['lomake_on_ladattu']);
