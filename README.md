@@ -23,7 +23,7 @@ $SESSION voi olla huonoa, pienelle määrälle käyttäjistä, että tarvitsee s
 
 Käyttäjän lomakeviestin minimipituus 8 merkkiä, max pituus 3000. 
 
-Personal trainer sivu:
+Personal trainer esimerkki:
 <img width="956" height="475" alt="trainer" src="https://github.com/user-attachments/assets/d79888c9-ee20-4cec-9c67-2c500625b36c" />
 
 Admin sivu:
