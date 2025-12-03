@@ -18,7 +18,6 @@
 		DELETE FROM Kuntokeskus_pyyntoraja
     	WHERE ampari < FLOOR(UNIX_TIMESTAMP() / 60) - 2;
 	");
-	$lauseke->bind_param("i", $vanhaAika);
 	$lauseke->execute();
 	$lauseke->close();
 
