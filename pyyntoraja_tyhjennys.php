@@ -11,9 +11,6 @@
 		die("Tietokantavirhe: " . $mysqli->connect_error);
 	}
 
-	$SEKUNTIA = 60;
-	$vanhaAika = time() - $SEKUNTIA;
-
 	$lauseke = $mysqli->prepare("
 		DELETE FROM Kuntokeskus_pyyntoraja
     	WHERE ampari < FLOOR(UNIX_TIMESTAMP() / 60) - 2;
