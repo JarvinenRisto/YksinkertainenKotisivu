@@ -3,13 +3,7 @@
 	header("Referrer-Policy: no-referrer-when-downgrade"); 
 	header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload"); 
 	header("Permissions-Policy: geolocation=(), microphone=()"); 
-	header("Content-Security-Policy: 
-		default-src 'self'; 
-		script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://www.gstatic.com https://www.google.com;
-		img-src 'self' https://www.gstatic.com/recaptcha/; 
-		style-src 'self' 'unsafe-inline';
-		frame-src https://www.google.com/recaptcha/;
-	");
+	header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; img-src 'self' https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; frame-src https://www.google.com/recaptcha/;");
 
 	session_set_cookie_params([
 	    'lifetime' => 0,
