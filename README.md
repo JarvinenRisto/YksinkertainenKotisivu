@@ -8,7 +8,7 @@ Salasana: 52,5koP3kj,3mc0X906
 
 ## Toteutuksessa hyödynnetty
 - OpenAI Moderation
-- ReCaptcha
+- ReCaptcha V2, mutta V3 parempi
 
 ## Muut ominaisuudet muun muassa
 3 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen, vain jotta käyttäjä ehtii lukea onnistumisviestin ja lisäksi linkki, jolla käyttäjä voi palata etusivulle ilman odotusta. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
