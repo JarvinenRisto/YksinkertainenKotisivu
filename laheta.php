@@ -82,7 +82,7 @@ function pyyntoRaja(mysqli $sql, string $ipOsoite) {
 function onkoLomakeLadattu() {
 
 	if (!isset($_SESSION['lomake_on_ladattu'])) {
-		tulostaVirhe("Lomaketta ei ole ladattu! Keksit (cookies) puuttuu??", 429);
+		tulostaVirhe("Lomakkeen lähetys vaatii evästeet. Salli tämän sivuston evästeet ja kokeile uudestaan", 429);
 	}
 
 	$aika = time() - $_SESSION['lomake_on_ladattu'];
