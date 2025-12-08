@@ -193,6 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		    $lauseke->close();
 		    header("Refresh: 3; URL=index.html");
 		    echo 'Lomakkeen tiedot lähetetty, sinut ohjataan takaisin etusivulle 3 sekunnin kuluttua.';
+			echo '<p>Jos siirtyminen ei tapahdu automaattisesti, <a href="index.html">klikkaa tästä palataksesi etusivulle</a>.</p>';
 		    exit;
 		} else {
 		    $lauseke->close();
