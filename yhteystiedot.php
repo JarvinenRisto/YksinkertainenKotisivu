@@ -83,6 +83,10 @@
 
     <div>
         <label for="viesti">Viesti</label>
+		<div>
+		    <span id="merkkiMaara">0</span> / 3000 merkkiä  
+			<span id="merkkiVihje"></span>
+		</div>
         <textarea id="viesti" name="viesti" rows="6" required></textarea>
     </div>
 
@@ -101,4 +105,28 @@
     Kuntospurtti © 2025
 </footer>
 
+<script>
+	function kuntospurttiMerkkiLaskuri() {
+		const VIESTI        = document.getElementById('viesti');
+		const MERKKI_MAARA  = document.getElementById('merkkiMaara');
+		const MERKKI_VIHJE  = document.getElementById('merkkiVihje');
+		const MINIMI        = 8;
+
+		const pituus = VIESTI.value.length;
+		MERKKI_MAARA.textContent = pituus;
+
+		if (pituus < MINIMI) {
+			MERKKI_VIHJE.textContent = `(${MINIMI - pituus} merkkiä vielä minimiin)`;
+		} else {
+			MERKKI_VIHJE.textContent = '';
+		}
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		kuntospurttiMerkkiLaskuri();
+		document.getElementById('viesti')
+			.addEventListener('input', kuntospurttiMerkkiLaskuri);
+	});
+</script>
+	
 </body></html>
