@@ -17,9 +17,9 @@ IP kohtainen POST rajoitus (10 pyyntöä/min/IP) aktivoituu vain silloin, kun Us
 
 Onko täysin sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa.
 
-Jos käyttäjä lähetti lomakkeen 1 sekunnissa (ei pitäisi haitata normaalia käyttöä), lähetys estyy, $SESSION avulla toteutettu. $SESSION kohtainen 20 sekunnin viive edellisestä onnistuneesta käyttäjän lomakkeen lähetyksestä. CSRF tarkistus.
+Jos käyttäjä lähetti lomakkeen 1 sekunnissa (ei pitäisi haitata normaalia käyttöä), lähetys estyy. Tuo on selainkohtaisesti php $SESSION avulla toteutettu. $SESSION kohtainen 20 sekunnin viive edellisestä onnistuneesta käyttäjän lomakkeen lähetyksestä. CSRF tarkistus.
 
-$SESSION voi olla huonoa, pienelle määrälle käyttäjistä, että tarvitsee selaimen keksit (cookies) asetuksen päällä (FireFoxissa keksit estetty: "kaikki evästeet (aiheuttaa sivustovirheitä)" asetus). Käsittääkseni Redis pystyisi toteuttaan näitä antiflood/ratelimit ominaisuuksia ilman $SESSION ja sql käyttöä, mutta sitä ei ole käytössä hostilla, eikä myöskään Apcu, MemCached.
+$SESSION voi olla huonoa, pienelle määrälle käyttäjistä, että tarvitsee selaimen keksit (cookies) asetuksen päällä (FireFoxissa keksit estetty: "kaikki evästeet (aiheuttaa sivustovirheitä)" asetus ja jotka muutenkin tietävät tämän). Käsittääkseni Redis pystyisi toteuttaan näitä antiflood/ratelimit ominaisuuksia ilman $SESSION ja sql käyttöä, mutta sitä ei ole käytössä hostilla, eikä myöskään Apcu, MemCached.
 
 Käyttäjän lomakeviestin minimipituus 8 merkkiä ja maksimipituus 3000 merkkiä.
 
