@@ -19,7 +19,7 @@ Jos täysin sama viesti lähetetään uudelleen, järjestelmä tunnistaa sen has
 
 Jos käyttäjä lähettää lomakkeen alle sekunnissa, lähetys estetään. Tämä ei pitäisi haitata normaalia käyttöä ja on toteutettu selaimen SESSION-tietoon perustuen. Lisäksi onnistuneen lähetyksen jälkeen on 20 sekunnin viive ennen uuden viestin lähettämistä. Lomakkeissa on myös CSRF-suojaus.
 
-SESSION-pohjainen toteutus vaatii evästeet (cookies) toimiakseen, mikä voi vaikuttaa pieneen määrään käyttäjiä, joilla evästeet on tarkoituksella poistettu käytöstä. Mahdollinen vaihtoehto olisi toteuttaa antiflood ja rate limit Redisillä, jolloin evästeriippuvuutta ei olisi, mutta käytettävällä palvelimella ei ole Redis-, APCu- tai Memcached-tukea.
+SESSION-pohjainen toteutus vaatii evästeet (cookies) toimiakseen, mikä voi vaikuttaa pieneen määrään käyttäjiä, joilla evästeet on tarkoituksella poistettu käytöstä. Mahdollinen vaihtoehto olisi toteuttaa antiflood ja rate limit Redisillä, jolloin evästeriippuvuutta ei olisi, mutta käytettävällä palvelimella ei ole Redis, APCu tai Memcached tukea.
 
 Lomakkeessa on viestille minimipituus (8 merkkiä) ja maksimipituus (3000 merkkiä), jotta tyhjät tai liian pitkät viestit eivät mene järjestelmään.
 
