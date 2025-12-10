@@ -8,20 +8,20 @@ Salasana: 52,5koP3kj,3mc0X906
 
 ## Toteutuksessa hyödynnetty
 - OpenAI Moderation
-- ReCaptcha V2, mutta V3 olisi parempi käytettävyydessä
+- reCAPTCHA V2 (myöhemmin on mahdollista päivittää V3-versioon paremman käytettävyyden vuoksi)
 
 ## Muut ominaisuudet muun muassa
-3 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen, jotta käyttäjä ehtii lukea onnistumisviestin. Lisäksi linkki, jolla käyttäjä voi siirtyä etusivulle ilman odotusta. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
+Kun käyttäjä lähettää lomakkeen onnistuneesti, sivulla näkyy kolme sekuntia ilmoitus, jotta käyttäjä ehtii lukea sen ennen siirtymistä eteenpäin. Lisäksi näkyy linkki, jolla voi palata etusivulle ilman viivettä. Lomakkeessa on piilotettu kenttä, joka estää bottien tekemät automaattiset lähetykset.
 
-IP kohtainen POST rajoitus (10 pyyntöä/min/IP) aktivoituu vain silloin, kun UserAgent ei läpäise roskatarkistusta, jolloinka ylimenevät lomakelähetykset merkitään spämmiksi. Huonoa on että UserAgent on spoofattavissa. Huonoa myös että jaetuissa verkoissa, voi raja tulla vastaan. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare. Mutta nuo tarkistukset ovat tässä mukana, vain maininnan vuoksi.
+Järjestelmä rajoittaa lomakkeiden lähetyksiä IP-osoitteen perusteella, jos toiminta vaikuttaa automaattiselta (10 pyyntöä minuutissa). Tällöin ylimääräiset viestit merkitään roskapostiksi. Tämä ei ole täydellinen ratkaisu, koska UserAgent-arvoa voi väärentää ja jaetuissa verkoissa raja voi tulla vastaan. Suuremmissa tuotantoympäristöissä tämä olisi yleensä toteutettu palomuurilla tai esimerkiksi Cloudflaren kautta, mutta tässä ominaisuus on mukana maininnan vuoksi.
 
-Onko täysin sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa.
+Jos täysin sama viesti lähetetään uudelleen, järjestelmä tunnistaa sen hash-arvolla (alun perin MD5, jatkossa suositeltavasti SHA256). Tällöin viesti ei mene suoraan sivulle, vaan se siirtyy ylläpidon tarkistettavaksi (admin-näkymässä voi poistaa, lukea tai hyväksyä).
 
-Jos käyttäjä lähetti lomakkeen 1 sekunnissa (ei pitäisi haitata normaalia käyttöä), lähetys estyy. Tuo on selainkohtaisesti php $SESSION avulla toteutettu. $SESSION kohtainen 20 sekunnin viive edellisestä onnistuneesta käyttäjän lomakkeen lähetyksestä. CSRF tarkistus.
+Jos käyttäjä lähettää lomakkeen alle sekunnissa, lähetys estetään. Tämä ei pitäisi haitata normaalia käyttöä ja on toteutettu selaimen SESSION-tietoon perustuen. Lisäksi onnistuneen lähetyksen jälkeen on 20 sekunnin viive ennen uuden viestin lähettämistä. Lomakkeissa on myös CSRF-suojaus.
 
-$SESSION voi olla huonoa, pienelle määrälle käyttäjistä, että tarvitsee selaimen keksit (cookies) asetuksen päällä (FireFoxissa keksit estetty: "kaikki evästeet (aiheuttaa sivustovirheitä)" asetus ja jotka muutenkin tietävät tämän). Käsittääkseni Redis pystyisi toteuttaan näitä antiflood/ratelimit ominaisuuksia ilman $SESSION ja sql käyttöä, mutta sitä ei ole käytössä hostilla, eikä myöskään Apcu, MemCached.
+SESSION-pohjainen toteutus vaatii evästeet (cookies) toimiakseen, mikä voi vaikuttaa pieneen määrään käyttäjiä, joilla evästeet on tarkoituksella poistettu käytöstä. Mahdollinen vaihtoehto olisi toteuttaa antiflood ja rate limit Redisillä, jolloin evästeriippuvuutta ei olisi, mutta käytettävällä palvelimella ei ole Redis-, APCu- tai Memcached-tukea.
 
-Käyttäjän lomakeviestin minimipituus 8 merkkiä ja maksimipituus 3000 merkkiä.
+Lomakkeessa on viestille minimipituus (8 merkkiä) ja maksimipituus (3000 merkkiä), jotta tyhjät tai liian pitkät viestit eivät mene järjestelmään.
 
 Etusivu:
 <img width="954" height="405" alt="kuva" src="https://github.com/user-attachments/assets/3b08d6cd-6132-4b5a-bd21-2e2c405727d6" />
