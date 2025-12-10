@@ -13,7 +13,7 @@ Salasana: 52,5koP3kj,3mc0X906
 ## Muut ominaisuudet muun muassa
 Kun käyttäjä lähettää lomakkeen onnistuneesti, sivulla näkyy kolme sekuntia ilmoitus, jotta käyttäjä ehtii lukea sen ennen siirtymistä eteenpäin. Lisäksi näkyy linkki, jolla voi palata etusivulle ilman viivettä. Lomakkeessa on piilotettu kenttä, joka estää joidenkin bottien tekemät automaattiset lähetykset.
 
-Silloin kun käyttäjän UserAgent ei läpäise roskatarkistusta (botit jne): järjestelmä tarkistaa IP-osoitteen perusteella, jos toiminta vaikuttaa automaattiselta (10 pyyntöä minuutissa). Tällöin ylimääräiset viestit merkitään roskapostiksi, joka menee admin sivun Spam laatikkoon. Tämä ei ole täydellinen ratkaisu, koska UserAgent-arvoa voi väärentää ja jaetuissa verkoissa raja voi tulla vastaan. Suuremmissa tuotantoympäristöissä tämä olisi yleensä toteutettu palomuurilla tai esimerkiksi Cloudflaren kautta, mutta tässä ominaisuus on mukana maininnan vuoksi.
+Silloin kun käyttäjän UserAgent ei läpäise roskatarkistusta (ei näytä selaimelta): järjestelmä tarkistaa IP-osoitteen perusteella, jos toiminta vaikuttaa automaattiselta (10 pyyntöä minuutissa). Tällöin ylimääräiset viestit merkitään roskapostiksi, joka menee admin sivun Spam laatikkoon. Tämä ei ole täydellinen ratkaisu, koska UserAgent-arvoa voi väärentää ja jaetuissa verkoissa raja voi tulla vastaan. Suuremmissa tuotantoympäristöissä tämä olisi yleensä toteutettu palomuurilla tai esimerkiksi Cloudflaren kautta, mutta tässä ominaisuus on mukana maininnan vuoksi.
 
 Jos täysin sama viesti lähetetään uudelleen, järjestelmä tunnistaa sen hash-arvolla (MD5, nykysuositus SHA256) ja se merkataan roskapostiksi. (admin sivuilla voi poistaa, lukea, vastata).
 
