@@ -15,7 +15,7 @@ Kun käyttäjä lähettää lomakkeen onnistuneesti, sivulla näkyy kolme sekunt
 
 Silloin kun käyttäjän UserAgent ei läpäise roskatarkistusta (botit jne): järjestelmä rajoittaa lomakkeiden lähetyksiä IP-osoitteen perusteella, jos toiminta vaikuttaa automaattiselta (10 pyyntöä minuutissa). Tällöin ylimääräiset viestit merkitään roskapostiksi. Tämä ei ole täydellinen ratkaisu, koska UserAgent-arvoa voi väärentää ja jaetuissa verkoissa raja voi tulla vastaan. Suuremmissa tuotantoympäristöissä tämä olisi yleensä toteutettu palomuurilla tai esimerkiksi Cloudflaren kautta, mutta tässä ominaisuus on mukana maininnan vuoksi.
 
-Jos täysin sama viesti lähetetään uudelleen, järjestelmä tunnistaa sen hash-arvolla (alun perin MD5, jatkossa suositeltavasti SHA256). Tällöin viesti ei mene suoraan sivulle, vaan se siirtyy ylläpidon tarkistettavaksi (admin-näkymässä voi poistaa, lukea tai hyväksyä).
+Jos täysin sama viesti lähetetään uudelleen, järjestelmä tunnistaa sen hash-arvolla (MD5, nykysuositus SHA256) ja se merkataan roskapostiksi. (admin sivuilla voi poistaa, lukea, vastata).
 
 Jos käyttäjä lähettää lomakkeen alle 2 sekunnissa (1 sekunti sivun latauksesta), lähetys estetään. Tämä ei pitäisi haitata normaalia käyttöä ja on toteutettu selain kohtaisesti: SESSION-tietoon perustuen. Lisäksi onnistuneen lähetyksen jälkeen on 20 sekunnin viive ennen uuden viestin lähettämistä. Lomakkeissa on myös CSRF-suojaus.
 
