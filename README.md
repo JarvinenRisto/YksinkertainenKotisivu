@@ -11,17 +11,17 @@ Salasana: 52,5koP3kj,3mc0X906
 - ReCaptcha V2, mutta V3 olisi parempi käytettävyydessä
 
 ## Muut ominaisuudet muun muassa
-3 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen, vain jotta käyttäjä ehtii lukea onnistumisviestin ja lisäksi linkki, jolla käyttäjä voi palata etusivulle ilman odotusta. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
+3 sekunnin viive käyttäjälle selaimessa onnistuneen lomakkeen lähetyksen jälkeen, jotta käyttäjä ehtii lukea onnistumisviestin. Lisäksi linkki, jolla käyttäjä voi siirtyä etusivulle ilman odotusta. Lomakkeessa piilofieldi, jos botti täyttää = lomakkeen lähetys estyy.
 
-IP kohtainen POST rajoitus (10 pyyntöä/min/IP) aktivoituu vain silloin, kun UserAgent ei läpäise roskatarkistusta, jolloinka ylimenevä osa merkataan spämmiksi. Huonoa on että UserAgent on spoofattavissa. Huonoa myös että jaetuissa verkoissa, voi raja tulla vastaan. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare. Mutta nuo tarkistukset ovat tässä mukana, vain maininnan vuoksi.
+IP kohtainen POST rajoitus (10 pyyntöä/min/IP) aktivoituu vain silloin, kun UserAgent ei läpäise roskatarkistusta, jolloinka ylimenevät lomakelähetykset merkitään spämmiksi. Huonoa on että UserAgent on spoofattavissa. Huonoa myös että jaetuissa verkoissa, voi raja tulla vastaan. Oikeilla yrityissivuilla voi todennäköisesti olla käytössä jonkin sortin palomuuri, ja/tai esimerkiksi Cloudflare. Mutta nuo tarkistukset ovat tässä mukana, vain maininnan vuoksi.
 
-Onko sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa.
+Onko täysin sama viesti md5 tarkistus (md5 vanhentunut, SHA256 suositeltu), jos on merkitään meneväksi spam laatikkoon admin sivulle, josta voi vastata/lukea/poistaa.
 
-Jos käyttäjä lähetti lomakkeen 1 sekunnissa (ei pitäisi osua normaaleihin käyttäjiin), lähetys estyy, $SESSION avulla toteutettu. $SESSION kohtainen 20 sekunnin viive edellisestä onnistuneesta käyttäjän lomakkeen lähetyksestä. CSRF tarkistus.
+Jos käyttäjä lähetti lomakkeen 1 sekunnissa (ei pitäisi haitata normaalia käyttöä), lähetys estyy, $SESSION avulla toteutettu. $SESSION kohtainen 20 sekunnin viive edellisestä onnistuneesta käyttäjän lomakkeen lähetyksestä. CSRF tarkistus.
 
 $SESSION voi olla huonoa, pienelle määrälle käyttäjistä, että tarvitsee selaimen keksit (cookies) asetuksen päällä (FireFoxissa keksit estetty: "kaikki evästeet (aiheuttaa sivustovirheitä)" asetus). Käsittääkseni Redis pystyisi toteuttaan näitä antiflood/ratelimit ominaisuuksia ilman $SESSION ja sql käyttöä, mutta sitä ei ole käytössä hostilla, eikä myöskään Apcu, MemCached.
 
-Käyttäjän lomakeviestin minimipituus 8 merkkiä, max pituus 3000. 
+Käyttäjän lomakeviestin minimipituus 8 merkkiä ja maksimipituus 3000 merkkiä.
 
 Etusivu:
 <img width="954" height="405" alt="kuva" src="https://github.com/user-attachments/assets/3b08d6cd-6132-4b5a-bd21-2e2c405727d6" />
