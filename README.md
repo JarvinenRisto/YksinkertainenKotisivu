@@ -11,9 +11,9 @@ Salasana: 52,5koP3kj,3mc0X906
 - reCAPTCHA V2 (myöhemmin on mahdollista päivittää V3-versioon paremman käytettävyyden vuoksi)
 
 ## Muut ominaisuudet muun muassa
-Kun käyttäjä lähettää lomakkeen onnistuneesti, sivulla näkyy kolme sekuntia ilmoitus, jotta käyttäjä ehtii lukea sen ennen siirtymistä eteenpäin. Lisäksi näkyy linkki, jolla voi palata etusivulle ilman viivettä. Lomakkeessa on piilotettu kenttä, joka estää bottien tekemät automaattiset lähetykset.
+Kun käyttäjä lähettää lomakkeen onnistuneesti, sivulla näkyy kolme sekuntia ilmoitus, jotta käyttäjä ehtii lukea sen ennen siirtymistä eteenpäin. Lisäksi näkyy linkki, jolla voi palata etusivulle ilman viivettä. Lomakkeessa on piilotettu kenttä, joka estää joidenkin bottien tekemät automaattiset lähetykset.
 
-Järjestelmä rajoittaa lomakkeiden lähetyksiä IP-osoitteen perusteella, jos toiminta vaikuttaa automaattiselta (10 pyyntöä minuutissa). Tällöin ylimääräiset viestit merkitään roskapostiksi. Tämä ei ole täydellinen ratkaisu, koska UserAgent-arvoa voi väärentää ja jaetuissa verkoissa raja voi tulla vastaan. Suuremmissa tuotantoympäristöissä tämä olisi yleensä toteutettu palomuurilla tai esimerkiksi Cloudflaren kautta, mutta tässä ominaisuus on mukana maininnan vuoksi.
+Silloin kun käyttäjän UserAgent ei läpäise roskatarkistusta (botit jne): järjestelmä rajoittaa lomakkeiden lähetyksiä IP-osoitteen perusteella, jos toiminta vaikuttaa automaattiselta (10 pyyntöä minuutissa). Tällöin ylimääräiset viestit merkitään roskapostiksi. Tämä ei ole täydellinen ratkaisu, koska UserAgent-arvoa voi väärentää ja jaetuissa verkoissa raja voi tulla vastaan. Suuremmissa tuotantoympäristöissä tämä olisi yleensä toteutettu palomuurilla tai esimerkiksi Cloudflaren kautta, mutta tässä ominaisuus on mukana maininnan vuoksi.
 
 Jos täysin sama viesti lähetetään uudelleen, järjestelmä tunnistaa sen hash-arvolla (alun perin MD5, jatkossa suositeltavasti SHA256). Tällöin viesti ei mene suoraan sivulle, vaan se siirtyy ylläpidon tarkistettavaksi (admin-näkymässä voi poistaa, lukea tai hyväksyä).
 
