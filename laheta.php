@@ -197,11 +197,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 		    exit;
 		} else {
 		    $lauseke->close();
-		    tulostaVirhe("Viestin lähetys epäonnistui.", 500);
+		    tulostaVirheNollaaAika("Viestin lähetys epäonnistui.", 500);
 		}
 
 	} else {
-		tulostaVirhe("Captcha epäonnistui.", 400);
+		tulostaVirheNollaaAika("Captcha epäonnistui.", 400);
 	}
 }
 ?>
