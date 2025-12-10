@@ -17,7 +17,7 @@ Silloin kun käyttäjän UserAgent ei läpäise roskatarkistusta (botit jne): j�
 
 Jos täysin sama viesti lähetetään uudelleen, järjestelmä tunnistaa sen hash-arvolla (alun perin MD5, jatkossa suositeltavasti SHA256). Tällöin viesti ei mene suoraan sivulle, vaan se siirtyy ylläpidon tarkistettavaksi (admin-näkymässä voi poistaa, lukea tai hyväksyä).
 
-Jos käyttäjä lähettää lomakkeen alle sekunnissa, lähetys estetään. Tämä ei pitäisi haitata normaalia käyttöä ja on toteutettu selaimen SESSION-tietoon perustuen. Lisäksi onnistuneen lähetyksen jälkeen on 20 sekunnin viive ennen uuden viestin lähettämistä. Lomakkeissa on myös CSRF-suojaus.
+Jos käyttäjä lähettää lomakkeen alle 2 sekunnissa (1 sekunti sivun latauksesta), lähetys estetään. Tämä ei pitäisi haitata normaalia käyttöä ja on toteutettu selain kohtaisesti: SESSION-tietoon perustuen. Lisäksi onnistuneen lähetyksen jälkeen on 20 sekunnin viive ennen uuden viestin lähettämistä. Lomakkeissa on myös CSRF-suojaus.
 
 SESSION-pohjainen toteutus vaatii evästeet (cookies) toimiakseen, mikä voi vaikuttaa pieneen määrään käyttäjiä, joilla evästeet on tarkoituksella poistettu käytöstä. Mahdollinen vaihtoehto olisi toteuttaa antiflood ja rate limit Redisillä, jolloin evästeriippuvuutta ei olisi, mutta käytettävällä palvelimella ei ole Redis, APCu tai Memcached tukea.
 
